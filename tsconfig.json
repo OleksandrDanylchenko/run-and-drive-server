@@ -17,7 +17,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@database/*": ["src/database/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@auth/*": ["src/auth/*"],
+      "@common/*": ["src/common/*"]
     }
   }
 }
