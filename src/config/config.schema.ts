@@ -12,7 +12,6 @@ export const configValidationSchema = Joi.object({
   PG_DB_DATABASE: Joi.string().required(),
 
   MONGO_DB_HOST: Joi.string().required(),
-  MONGO_DB_PORT: Joi.number().default(27017).required(),
   MONGO_DB_USERNAME: Joi.string().required(),
   MONGO_DB_PASSWORD: Joi.string().required(),
   MONGO_DB_DATABASE: Joi.string().required(),

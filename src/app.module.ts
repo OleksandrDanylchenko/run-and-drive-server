@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { configValidationSchema } from '@config/config.schema';
+import mongoDataSource from '@config/mongo-data-source.config';
 import pgDataSource from '@config/pg-data-source.config';
-import { MongoDatabaseModule } from '@database/mongo.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,7 +15,7 @@ import { AppService } from './app.service';
       validationSchema: configValidationSchema,
     }),
     TypeOrmModule.forRoot(pgDataSource.options),
-    MongoDatabaseModule,
+    TypeOrmModule.forRoot(mongoDataSource.options),
   ],
   controllers: [AppController],
   providers: [AppService],
