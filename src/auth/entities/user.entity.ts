@@ -23,6 +23,6 @@ export class User {
   @Column({ length: 20 })
   phone: string;
 
-  @Column({ name: 'refresh_token_hash', length: 300 })
+  @Column({ name: 'refresh_token_hash', length: 300, nullable: true })
   refreshTokenHash: string;
 }
