@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
-import { isProduction, rootCodeFolder } from '@utils/env-parser.helper';
+import { isProduction, rootCodeFolder } from '../utils/env-parser.helper';
 
 const pgDataSource = new DataSource({
   ssl: isProduction,
