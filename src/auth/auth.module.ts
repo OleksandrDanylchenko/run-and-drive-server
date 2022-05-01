@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { TypeOrmExModule } from '@database/typeorm-ex.module';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -12,7 +13,7 @@ import { AtStrategy, RtStrategy } from './strategies';
   imports: [
     ConfigModule,
     JwtModule.register({}),
-    TypeOrmModule.forFeature([UsersRepository]),
+    TypeOrmExModule.forCustomRepository([UsersRepository]),
   ],
   controllers: [AuthController],
   providers: [AuthService, AtStrategy, RtStrategy],

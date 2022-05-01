@@ -4,13 +4,14 @@ import {
 } from '@nestjs/common';
 import * as argon from 'argon2';
 import { PostgresError } from 'pg-error-enum';
-import { EntityRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { AuthSignupDto } from '@auth/dto';
+import { CustomRepository } from '@database/typeorm-ex.decorator';
 
 import { User } from './user.entity';
 
-@EntityRepository(User)
+@CustomRepository(User)
 export class UsersRepository extends Repository<User> {
   async createUser(authSignupDto: AuthSignupDto): Promise<User> {
     const { name, surname, email, password, phone } = authSignupDto;
