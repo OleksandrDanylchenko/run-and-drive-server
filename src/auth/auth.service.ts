@@ -39,17 +39,17 @@ export class AuthService {
   }
 
   async logout(userId: number): Promise<boolean> {
-    await this.usersRepository.update(userId, { refreshToken: null });
+    await this.usersRepository.update(userId, { refreshTokenHash: null });
     return true;
   }
 
   async refreshTokens(userId: string, rt: string): Promise<Tokens> {
     const user = await this.usersRepository.findOneBy({ id: userId });
-    if (!user || !user.refreshToken) {
+    if (!user || !user.refreshTokenHash) {
       throw new ForbiddenException('Access Denied');
     }
 
-    const rtMatches = await argon.verify(user.refreshToken, rt);
+    const rtMatches = await argon.verify(user.refreshTokenHash, rt);
     if (!rtMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
@@ -60,7 +60,7 @@ export class AuthService {
 
   async updateRtHash(userId: string, rt: string): Promise<void> {
     const hash = await argon.hash(rt);
-    await this.usersRepository.update(userId, { refreshToken: hash });
+    await this.usersRepository.update(userId, { refreshTokenHash: hash });
   }
 
   async getTokens(userId: string, email: string): Promise<Tokens> {

@@ -5,24 +5,24 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ length: 100 })
   name: string;
 
-  @Column()
+  @Column({ length: 100 })
   surname: string;
 
-  @Column({ unique: true })
+  @Column({ length: 200, unique: true })
   email: string;
 
-  @Column()
+  @Column({ length: 200 })
   password: string;
 
-  @Column({ name: 'photo_url', nullable: true })
+  @Column({ name: 'photo_url', length: 300, nullable: true })
   photoUrl?: string;
 
-  @Column()
+  @Column({ length: 20 })
   phone: string;
 
-  @Column({ name: 'refresh_token' })
-  refreshToken: string;
+  @Column({ name: 'refresh_token_hash', length: 300 })
+  refreshTokenHash: string;
 }
