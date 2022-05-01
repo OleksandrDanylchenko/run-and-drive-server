@@ -8,5 +8,6 @@ export const configValidationSchema = Joi.object({
   PG_DB_USERNAME: Joi.string().required(),
   PG_DB_PASSWORD: Joi.string().required(),
   PG_DB_DATABASE: Joi.string().required(),
+  PG_DB_MIGRATIONS_FOLDER: Joi.string().required(),
   JWT_SECRET: Joi.string().required(),
 });
