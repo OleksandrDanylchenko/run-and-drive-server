@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configValidationSchema } from './config/config.schema';
+import { PostgresDatabaseModule } from './database/pg.module';
 
 console.log(process.env.STAGE, `.env.stage.${process.env.STAGE}`);
 
@@ -13,6 +14,7 @@ console.log(process.env.STAGE, `.env.stage.${process.env.STAGE}`);
       envFilePath: [`.env.stage.${process.env.STAGE}`],
       validationSchema: configValidationSchema,
     }),
+    PostgresDatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
