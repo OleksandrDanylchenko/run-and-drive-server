@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: async (configService) => {
         const isProduction = configService.get('STAGE') === 'prod';
         return {
+          name: 'mongo-run-and-drive',
           ssl: isProduction,
           type: 'mongodb',
           host: configService.get('MONGO_DB_HOST'),
@@ -17,7 +18,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           username: configService.get('MONGO_DB_USERNAME'),
           password: configService.get('MONGO_DB_PASSWORD'),
           database: configService.get('MONGO_DB_DATABASE'),
-          keepConnectionAlive: true,
         };
       },
     }),

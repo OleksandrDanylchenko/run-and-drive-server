@@ -24,7 +24,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           password: configService.get('PG_DB_PASSWORD'),
           database: configService.get('PG_DB_DATABASE'),
           migrations: [configService.get('PG_DB_MIGRATIONS_FOLDER')],
-          keepConnectionAlive: true,
         };
       },
     }),
