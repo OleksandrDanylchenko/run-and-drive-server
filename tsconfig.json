@@ -8,8 +8,16 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true
+    "baseUrl": ".",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "outDir": "dist",
+    "paths": {
+      "@/*": ["src/*"],
+      "@database/*": ["src/database/*"],
+      "@config/*": ["src/config/*"]
+    }
   }
 }

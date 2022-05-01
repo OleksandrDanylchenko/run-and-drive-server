@@ -46,6 +46,7 @@
     "@typescript-eslint/parser": "^4.19.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^3.3.1",
     "jest": "^26.6.3",
@@ -72,6 +73,11 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/../src/$1",
+      "^@database/(.*)$": "<rootDir>/../src/database/$1",
+      "^@config/(.*)$": "<rootDir>/../src/config/$1"
+    }
   }
 }
