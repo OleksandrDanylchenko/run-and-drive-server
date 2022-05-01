@@ -4,6 +4,7 @@ import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
 const isProduction = process.env.STAGE == 'prod';
+const rootCodeFolder = process.env.NODE_ENV === 'migration' ? 'src' : 'dist';
 
 const pgDataSource = new DataSource({
   ssl: isProduction,
@@ -16,8 +17,8 @@ const pgDataSource = new DataSource({
   username: process.env.PG_DB_USERNAME,
   password: process.env.PG_DB_PASSWORD,
   database: process.env.PG_DB_DATABASE,
-  entities: [resolve('**/*.entity.{ts,js}')],
-  migrations: [resolve('**/database/pg/migrations/*.{ts,js}')],
+  entities: [resolve(rootCodeFolder, '**/*.entity.{ts,js}')],
+  migrations: [resolve(rootCodeFolder, '/database/pg/migrations/*.{ts,js}')],
   migrationsRun: true,
   synchronize: false,
 });

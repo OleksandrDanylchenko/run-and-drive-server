@@ -19,9 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "add-migration": "npx typeorm-ts-node-esm migration:generate -d src/config/pg-data-source.config.ts src/database/pg/migrations/UsersTable",
-    "migrate": "npx typeorm-ts-node-esm migration:run -d src/config/pg-data-source.config.ts",
-    "rollback-one": "npx typeorm-ts-node-esm migration:revert -d src/config/pg-data-source.config.ts"
+    "add-migration": "NODE_ENV=migration npx typeorm-ts-node-esm migration:generate -d src/config/pg-data-source.config.ts src/database/pg/migrations/UsersTable",
+    "migrate": "NODE_ENV=migration npx typeorm-ts-node-esm migration:run -d src/config/pg-data-source.config.ts",
+    "rollback-one": "NODE_ENV=migration npx typeorm-ts-node-esm migration:revert -d src/config/pg-data-source.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.4",
