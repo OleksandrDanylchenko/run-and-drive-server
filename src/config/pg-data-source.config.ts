@@ -18,7 +18,6 @@ const pgDataSource = new DataSource({
   database: process.env.PG_DB_DATABASE,
   entities: [resolve(rootCodeFolder, '**/*.entity.{ts,js}')],
   migrations: [resolve(rootCodeFolder, 'database/pg/migrations/*.{ts,js}')],
-  migrationsRun: true,
   synchronize: false,
 });
 
