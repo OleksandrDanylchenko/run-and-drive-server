@@ -18,7 +18,7 @@
       "@/*": ["src/*"],
       "@database/*": ["src/database/*"],
       "@config/*": ["src/config/*"],
-      "@auth/*": ["src/auth/*"],
+      "@auth/*": ["src/modules/auth/*"],
       "@common/*": ["src/common/*"],
       "@utils/*": ["src/utils/*"]
     }
