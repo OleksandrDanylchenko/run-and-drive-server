@@ -10,8 +10,9 @@
     "^@/(.*)$": "<rootDir>/../src/$1",
     "^@database/(.*)$": "<rootDir>/../src/database/$1",
     "^@config/(.*)$": "<rootDir>/../src/config/$1",
-    "^@auth/(.*)$": "<rootDir>/../src/modules/auth/$1",
     "^@common/(.*)$": "<rootDir>/../src/common/$1",
-    "^@utils/(.*)$": "<rootDir>/../src/utils/$1"
+    "^@utils/(.*)$": "<rootDir>/../src/utils/$1",
+    "^@auth/(.*)$": "<rootDir>/../src/modules/auth/$1",
+    "^@engineers/(.*)$": "<rootDir>/../src/modules/engineers/$1"
   }
 }
