@@ -1,6 +1,7 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 
@@ -10,6 +11,8 @@ async function bootstrap() {
   app.enableCors({
     origin: [/localhost:(3000|3100)/], // Local development addresses for the admin & emitter apps
   });
+  app.use(helmet());
+  app.useGlobalPipes(new ValidationPipe());
 
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
