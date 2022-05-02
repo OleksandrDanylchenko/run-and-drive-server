@@ -26,7 +26,7 @@ export class UsersRepository extends Repository<User> {
       phone,
     });
     try {
-      return this.save(user);
+      return await this.save(user);
     } catch (error) {
       // Duplicate email
       if (error.code === PostgresError.UNIQUE_VIOLATION) {
