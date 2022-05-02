@@ -19,9 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "add-migration": "NODE_ENV=migration npx typeorm-ts-node-esm migration:generate -p -d src/config/pg-data-source.config.ts src/database/pg/migrations/UsersTable",
-    "migrate": "NODE_ENV=migration npx typeorm-ts-node-esm migration:run -d src/config/pg-data-source.config.ts",
-    "rollback-one": "NODE_ENV=migration npx typeorm-ts-node-esm migration:revert -d src/config/pg-data-source.config.ts"
+    "add-migration": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -p -d src/config/pg-data-source.config.ts src/database/pg/migrations/EngineersTable",
+    "migrate": "NODE_ENV=migration npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/config/pg-data-source.config.ts",
+    "rollback-one": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.jsmigration:revert -d src/config/pg-data-source.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.4",
@@ -38,6 +38,7 @@
     "helmet": "^5.0.2",
     "joi": "^17.6.0",
     "mongodb": "^4.5.0",
+    "nanoid": "^3.3.3",
     "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.3",
@@ -69,7 +70,7 @@
     "ts-jest": "^26.5.4",
     "ts-loader": "^9.3.0",
     "ts-node": "^10.7.0",
-    "tsconfig-paths": "^3.9.0",
+    "tsconfig-paths": "^3.14.1",
     "typescript": "^4.2.3"
   },
   "jest": {

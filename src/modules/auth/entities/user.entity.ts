@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Engineer } from '@engineers/entities/engineer.entity';
 
 @Entity('users')
 export class User {
@@ -25,4 +27,10 @@ export class User {
 
   @Column({ name: 'refresh_token_hash', length: 300, nullable: true })
   refreshTokenHash: string;
+
+  @OneToOne(() => Engineer, (engineer) => engineer.user, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  engineer?: Engineer;
 }
