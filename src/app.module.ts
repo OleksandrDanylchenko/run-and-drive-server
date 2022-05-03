@@ -8,6 +8,7 @@ import { AtGuard } from '@common/guards';
 import { configValidationSchema } from '@config/config.schema';
 import mongoDataSource from '@config/mongo-data-source.config';
 import pgDataSource from '@config/pg-data-source.config';
+import { EmittersModule } from '@emitters/emitters.module';
 import { EngineersModule } from '@engineers/engineers.module';
 
 import { AppController } from './app.controller';
@@ -22,6 +23,7 @@ import { AppService } from './app.service';
     TypeOrmModule.forRoot(mongoDataSource.options),
     AuthModule,
     EngineersModule,
+    EmittersModule,
   ],
   controllers: [AppController],
   providers: [

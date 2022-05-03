@@ -21,7 +21,8 @@
       "@common/*": ["src/common/*"],
       "@utils/*": ["src/utils/*"],
       "@auth/*": ["src/modules/auth/*"],
-      "@engineers/*": ["src/modules/engineers/*"]
+      "@engineers/*": ["src/modules/engineers/*"],
+      "@emitters/*": ["src/modules/emitters/*"]
     }
   }
 }

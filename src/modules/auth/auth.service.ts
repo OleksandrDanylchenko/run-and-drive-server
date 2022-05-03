@@ -21,7 +21,7 @@ export class AuthService {
   async signupLocal(dto: AuthSignupDto): Promise<Tokens> {
     const { id, email } = await this.usersRepository.createUser(dto);
     const tokens = await this.getTokens(id, email);
-    await this.updateRtHash(id, tokens.refresh_token);
+    await this.updateRtHash(id, tokens.refreshToken);
     return tokens;
   }
 
@@ -33,7 +33,7 @@ export class AuthService {
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRtHash(user.id, tokens.refreshToken);
 
     return tokens;
   }
@@ -53,7 +53,7 @@ export class AuthService {
     if (!rtMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
+    await this.updateRtHash(user.id, tokens.refreshToken);
 
     return tokens;
   }
@@ -77,8 +77,8 @@ export class AuthService {
       }),
     ]);
     return {
-      access_token: at,
-      refresh_token: rt,
+      accessToken: at,
+      refreshToken: rt,
     };
   }
 }
