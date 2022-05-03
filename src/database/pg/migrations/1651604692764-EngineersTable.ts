@@ -1,13 +1,14 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class EngineersTable1651603594810 implements MigrationInterface {
-  name = 'EngineersTable1651603594810';
+export class EngineersTable1651604692764 implements MigrationInterface {
+  name = 'EngineersTable1651604692764';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
             CREATE TABLE "emitters" (
                 "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "activatedAt" TIMESTAMP NOT NULL DEFAULT now(),
+                "activated_at" TIMESTAMP NOT NULL DEFAULT now(),
+                "deactivated_at" TIMESTAMP,
                 "engineer_id" uuid,
                 CONSTRAINT "PK_96fd5b9757be96a1a867b042899" PRIMARY KEY ("id")
             )

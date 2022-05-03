@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "add-migration": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -p -d src/config/pg-data-source.config.ts src/database/pg/migrations/EngineersTable",
     "migrate": "NODE_ENV=migration npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/config/pg-data-source.config.ts",
-    "rollback-one": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.jsmigration:revert -d src/config/pg-data-source.config.ts"
+    "rollback-one": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d src/config/pg-data-source.config.ts"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.4",

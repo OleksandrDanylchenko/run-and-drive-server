@@ -46,6 +46,14 @@ export class EmittersService {
     return { accessToken };
   }
 
+  async unregister(emitterId: string): Promise<boolean> {
+    const emitter = await this.emittersRepository.findOneBy({ id: emitterId });
+    if (!emitter) return true;
+
+    await this.emittersRepository.softRemove([emitter]);
+    return true;
+  }
+
   async getToken(emitterId: string, activationLogin: string): Promise<AtToken> {
     const jwtPayload = { sub: emitterId, activationLogin };
 
