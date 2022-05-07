@@ -22,7 +22,8 @@
       "@utils/*": ["src/utils/*"],
       "@auth/*": ["src/modules/auth/*"],
       "@engineers/*": ["src/modules/engineers/*"],
-      "@emitters/*": ["src/modules/emitters/*"]
+      "@emitters/*": ["src/modules/emitters/*"],
+      "@cars/*": ["src/modules/cars/*"]
     }
   }
 }

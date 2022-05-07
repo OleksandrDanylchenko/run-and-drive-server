@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "add-migration": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -p -d src/config/pg-data-source.config.ts src/database/pg/migrations/EngineersTable",
+    "add-migration": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -p -d src/config/pg-data-source.config.ts src/database/pg/migrations/CarsTable",
     "migrate": "NODE_ENV=migration npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/config/pg-data-source.config.ts",
     "rollback-one": "NODE_ENV=migration ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d src/config/pg-data-source.config.ts"
   },
@@ -97,7 +97,8 @@
       "^@utils/(.*)$": "<rootDir>/../src/utils/$1",
       "^@auth/(.*)$": "<rootDir>/../src/modules/auth/$1",
       "^@engineers/(.*)$": "<rootDir>/../src/modules/engineers/$1",
-      "^@emitters/(.*)$": "<rootDir>/../src/modules/emitters/$1"
+      "^@emitters/(.*)$": "<rootDir>/../src/modules/emitters/$1",
+      "^@cars/(.*)$": "<rootDir>/../src/modules/cars/$1"
     }
   }
 }
