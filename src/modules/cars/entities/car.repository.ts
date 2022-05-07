@@ -10,4 +10,12 @@ export class CarsRepository extends Repository<Car> {
     const car = this.create(dto);
     return this.save(car);
   }
+
+  async deleteCar(carId: string): Promise<boolean> {
+    const car = await this.findOneBy({ id: carId });
+    if (!car) return true;
+
+    await this.softRemove([car]);
+    return true;
+  }
 }

@@ -15,4 +15,8 @@ export class CarsService {
   async create(dto: CreateCarDto): Promise<Car> {
     return this.carsRepository.createCar(dto);
   }
+
+  async delete(carId: string): Promise<boolean> {
+    return this.carsRepository.deleteCar(carId);
+  }
 }
