@@ -15,8 +15,15 @@ import { User } from './user.entity';
 @CustomRepository(User)
 export class UsersRepository extends Repository<User> {
   async getUser(userId: string) {
-    const user = this.findOneBy({ id: userId });
-    if (!user) {
+    const user = await this.findOne({
+      where: { id: userId },
+      relations: { engineer: true },
+    });
+    console.log(user);
+    if (
+      !user ||
+      user.engineer // Do not return engineers as plain users
+    ) {
       throw new NotFoundException(`User ${userId} cannot be found!`);
     }
     return user;

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { GetUserDto } from '@auth/dto/get-user.dto';
 import { ImgurService } from '@common/services/imgur/imgur.service';
 import { ImgurEntityIds } from '@common/types';
 
@@ -13,6 +14,22 @@ export class UsersService {
     private usersRepository: UsersRepository,
     private imgurService: ImgurService,
   ) {}
+
+  async get(userId: string): Promise<GetUserDto> {
+    const {
+      photo,
+      password: _p,
+      refreshTokenHash: _rt,
+      engineer: _e,
+      ...user
+    } = await this.usersRepository.getUser(userId);
+
+    const photoUrl = await this.imgurService.getPhotoUrl(photo.id);
+    return {
+      ...user,
+      photoUrl,
+    };
+  }
 
   async updatePhoto(
     userId: string,

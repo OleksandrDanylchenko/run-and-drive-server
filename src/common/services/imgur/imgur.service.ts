@@ -23,6 +23,15 @@ export class ImgurService {
     private imgurClient: ImgurClient,
   ) {}
 
+  async getPhotoUrl(photoId: string): Promise<string | undefined> {
+    try {
+      const { data } = await this.imgurClient.getImage(photoId);
+      return data.link;
+    } catch (error) {
+      return undefined;
+    }
+  }
+
   async uploadPhoto({
     photo,
     exitingPhotoHash,

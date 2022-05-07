@@ -1,9 +1,7 @@
 import {
   IsNotEmpty,
-  IsOptional,
   IsPhoneNumber,
   IsString,
-  IsUrl,
   Matches,
   MaxLength,
   MinLength,
@@ -32,8 +30,4 @@ export class AuthSignupDto extends AuthSigninDto {
   @IsNotEmpty()
   @IsPhoneNumber('UA')
   phone: string;
-
-  @IsOptional()
-  @IsUrl()
-  photoUrl?: string;
 }
