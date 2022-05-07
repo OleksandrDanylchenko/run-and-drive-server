@@ -1,4 +1,4 @@
-export interface CarPhotosAlbum {
+export interface ImgurAlbumIds {
   id: string;
   deletehash: string;
 }

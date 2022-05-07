@@ -15,7 +15,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CarsService } from '@cars/cars.service';
 import { CreateCarDto } from '@cars/dto/create-car.dto';
 import { Car } from '@cars/entities/car.entity';
-import { CarPhotosAlbum } from '@cars/types';
+import { ImgurAlbumIds } from '@common/types';
 
 @Controller('cars')
 export class CarsController {
@@ -33,7 +33,7 @@ export class CarsController {
   async updateCarPhotos(
     @Param('id') carId: string,
     @UploadedFiles() photos: Array<Express.Multer.File>,
-  ): Promise<CarPhotosAlbum> {
+  ): Promise<ImgurAlbumIds> {
     return this.carsService.updatePhotos(carId, photos);
   }
 

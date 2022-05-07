@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ImgurClient } from 'imgur';
 
-export const ImgurClientProvider = Symbol('ImgurClientProvider');
+import { ImgurClientProvider } from '@common/services/imgur/constants';
+import { ImgurService } from '@common/services/imgur/imgur.service';
 
 const imgurClientFactory = {
   provide: ImgurClientProvider,
@@ -15,7 +16,7 @@ const imgurClientFactory = {
 
 @Module({
   imports: [ConfigModule],
-  providers: [imgurClientFactory],
-  exports: [ImgurClientProvider],
+  providers: [ImgurService, imgurClientFactory],
+  exports: [ImgurService],
 })
 export class ImgurModule {}

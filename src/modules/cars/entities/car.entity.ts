@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { CarPhotosAlbum } from '@cars/types';
+import { ImgurAlbumIds } from '@common/types';
 import { Emitter } from '@emitters/entities/emitter.entity';
 
 @Entity('cars')
@@ -39,7 +39,7 @@ export class Car {
   color: string;
 
   @Column({ type: 'json', nullable: true })
-  album: CarPhotosAlbum;
+  album?: ImgurAlbumIds;
 
   @Column()
   mileage: number;
