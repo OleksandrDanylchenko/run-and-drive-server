@@ -1,3 +1,8 @@
+import {
+  ConflictException,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import { PostgresError } from 'pg-error-enum';
 import { Repository } from 'typeorm';
 
 import { CreateCarDto } from '@cars/dto/create-car.dto';
@@ -8,7 +13,16 @@ import { CustomRepository } from '@database/typeorm-ex.decorator';
 export class CarsRepository extends Repository<Car> {
   async createCar(dto: CreateCarDto): Promise<Car> {
     const car = this.create(dto);
-    return this.save(car);
+
+    try {
+      return await this.save(car);
+    } catch (error) {
+      if (error.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new ConflictException('Car with provided VIN already exists');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async deleteCar(carId: string): Promise<boolean> {

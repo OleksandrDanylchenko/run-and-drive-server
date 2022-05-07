@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { CarPhotosAlbum } from '@cars/types';
 import { Emitter } from '@emitters/entities/emitter.entity';
 
 @Entity('cars')
@@ -22,7 +23,7 @@ export class Car {
   @Exclude({ toPlainOnly: true })
   emitter?: Emitter;
 
-  @Column({ length: 17, unique: true })
+  @Column({ length: 17 })
   vin: string;
 
   @Column({ length: 50 })
@@ -37,8 +38,8 @@ export class Car {
   @Column({ length: 50 })
   color: string;
 
-  @Column({ name: 'album_hash', unique: true, nullable: true })
-  albumHash?: string;
+  @Column({ type: 'json', nullable: true })
+  album: CarPhotosAlbum;
 
   @Column()
   mileage: number;

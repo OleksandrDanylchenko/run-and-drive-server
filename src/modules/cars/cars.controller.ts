@@ -4,12 +4,18 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Param,
+  Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CarsService } from '@cars/cars.service';
 import { CreateCarDto } from '@cars/dto/create-car.dto';
 import { Car } from '@cars/entities/car.entity';
+import { CarPhotosAlbum } from '@cars/types';
 
 @Controller('cars')
 export class CarsController {
@@ -21,9 +27,19 @@ export class CarsController {
     return this.carsService.create(dto);
   }
 
+  @Patch('/:id/photos')
+  @UseInterceptors(FilesInterceptor('photos'))
+  @HttpCode(HttpStatus.OK)
+  async updateCarPhotos(
+    @Param('id') carId: string,
+    @UploadedFiles() photos: Array<Express.Multer.File>,
+  ): Promise<CarPhotosAlbum> {
+    return this.carsService.updatePhotos(carId, photos);
+  }
+
   @Delete('/:id')
   @HttpCode(HttpStatus.OK)
-  logout(carId: string): Promise<boolean> {
+  logout(@Param('id') carId: string): Promise<boolean> {
     return this.carsService.delete(carId);
   }
 }
