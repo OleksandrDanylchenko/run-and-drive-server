@@ -1,5 +1,6 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+import { ImgurEntityIds } from '@common/types';
 import { Engineer } from '@engineers/entities/engineer.entity';
 
 @Entity('users')
@@ -19,8 +20,8 @@ export class User {
   @Column({ length: 200 })
   password: string;
 
-  @Column({ name: 'photo_url', length: 300, nullable: true })
-  photoUrl?: string;
+  @Column({ type: 'json', nullable: true })
+  photo?: ImgurEntityIds;
 
   @Column({ length: 20 })
   phone: string;

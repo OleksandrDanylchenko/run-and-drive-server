@@ -1,4 +1,4 @@
-export interface ImgurAlbumIds {
+export interface ImgurEntityIds {
   id: string;
   deletehash: string;
 }

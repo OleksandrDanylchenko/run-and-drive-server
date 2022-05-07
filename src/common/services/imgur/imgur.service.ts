@@ -8,7 +8,7 @@ import { ImgurClient } from 'imgur';
 import { AlbumData, Payload as ImagePayload } from 'imgur/lib/common/types';
 
 import { ImgurClientProvider } from '@common/services/imgur/constants';
-import { ImgurAlbumIds } from '@common/types';
+import { ImgurEntityIds } from '@common/types';
 
 export interface NewAlbumData extends AlbumData {
   deletehash: string;
@@ -22,6 +22,37 @@ export class ImgurService {
     @Inject(ImgurClientProvider)
     private imgurClient: ImgurClient,
   ) {}
+
+  async uploadPhoto({
+    photo,
+    exitingPhotoHash,
+  }: {
+    photo: Express.Multer.File;
+    exitingPhotoHash?: string;
+  }): Promise<ImgurEntityIds> {
+    if (exitingPhotoHash) {
+      await this.imgurClient.deleteImage(exitingPhotoHash);
+    }
+    return this.uploadPhotoFile(photo);
+  }
+
+  private async uploadPhotoFile(
+    photo: Express.Multer.File,
+  ): Promise<ImgurEntityIds> {
+    const { originalname, buffer } = photo;
+    const imagePayload: ImagePayload = {
+      title: originalname,
+      image: buffer,
+    };
+    const { success, data } = await this.imgurClient.upload(imagePayload);
+    if (!success) {
+      throw new InternalServerErrorException(
+        `Cannot create an image ${originalname}`,
+      );
+    }
+    const { id, deletehash } = data;
+    return { id, deletehash };
+  }
 
   async getAlbumPhotosUrls(albumId: string): Promise<string[]> {
     try {
@@ -40,21 +71,12 @@ export class ImgurService {
     photos: Array<Express.Multer.File>;
     albumTitle: string;
     existingAlbumHash?: string;
-  }): Promise<ImgurAlbumIds> {
+  }): Promise<ImgurEntityIds> {
     if (existingAlbumHash) {
       await this.deleteExistingAlbumPhotos(existingAlbumHash);
     }
     const albumIds = await this.createNewAlbum(albumTitle);
-
-    const imagesPayloads: ImagePayload[] = photos.map((photo) => ({
-      title: photo.originalname,
-      image: photo.buffer,
-      album: albumIds.deletehash,
-    }));
-    await Promise.all(
-      imagesPayloads.map((payload) => this.imgurClient.upload(payload)),
-    );
-
+    await Promise.all(photos.map((photo) => this.uploadPhotoFile(photo)));
     return albumIds;
   }
 
@@ -65,14 +87,13 @@ export class ImgurService {
         url: `3/album/${albumHash}`,
       });
     } catch (error) {
-      debugger;
       if (error.status !== 404) {
         this.logger.error('Error deleting the album', error);
       }
     }
   }
 
-  private async createNewAlbum(title: string): Promise<ImgurAlbumIds> {
+  private async createNewAlbum(title: string): Promise<ImgurEntityIds> {
     const { success, data } = await this.imgurClient.createAlbum(
       `${title}_photos`,
     );

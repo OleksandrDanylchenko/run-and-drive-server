@@ -1,6 +1,7 @@
 import {
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import * as argon from 'argon2';
 import { PostgresError } from 'pg-error-enum';
@@ -13,6 +14,14 @@ import { User } from './user.entity';
 
 @CustomRepository(User)
 export class UsersRepository extends Repository<User> {
+  async getUser(userId: string) {
+    const user = this.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundException(`User ${userId} cannot be found!`);
+    }
+    return user;
+  }
+
   async createUser(authSignupDto: AuthSignupDto): Promise<User> {
     const { name, surname, email, password, phone } = authSignupDto;
 

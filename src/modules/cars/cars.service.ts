@@ -6,7 +6,7 @@ import { GetCarDto } from '@cars/dto/get-car.dto';
 import { Car } from '@cars/entities/car.entity';
 import { CarsRepository } from '@cars/entities/car.repository';
 import { ImgurService } from '@common/services/imgur/imgur.service';
-import { ImgurAlbumIds } from '@common/types';
+import { ImgurEntityIds } from '@common/types';
 
 @Injectable()
 export class CarsService {
@@ -34,7 +34,7 @@ export class CarsService {
   async updatePhotos(
     carId: string,
     photos: Array<Express.Multer.File>,
-  ): Promise<ImgurAlbumIds> {
+  ): Promise<ImgurEntityIds> {
     const { album } = await this.carsRepository.getCar(carId);
 
     const newAlbumIds = await this.imgurService.uploadPhotosToAlbum({
