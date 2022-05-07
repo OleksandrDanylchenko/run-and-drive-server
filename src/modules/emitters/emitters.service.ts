@@ -43,11 +43,7 @@ export class EmittersService {
   }
 
   async unregister(emitterId: string): Promise<boolean> {
-    const emitter = await this.emittersRepository.findOneBy({ id: emitterId });
-    if (!emitter) return true;
-
-    await this.emittersRepository.softRemove([emitter]);
-    return true;
+    return this.emittersRepository.deleteEmitter(emitterId);
   }
 
   async getToken(emitterId: string, activationLogin: string): Promise<AtToken> {

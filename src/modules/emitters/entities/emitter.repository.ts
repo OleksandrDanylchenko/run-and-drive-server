@@ -1,6 +1,3 @@
-import { InternalServerErrorException } from '@nestjs/common';
-import { nanoid } from 'nanoid';
-import { PostgresError } from 'pg-error-enum';
 import { Repository } from 'typeorm';
 
 import { CustomRepository } from '@database/typeorm-ex.decorator';
@@ -16,5 +13,13 @@ export class EmittersRepository extends Repository<Emitter> {
   ): Promise<Emitter> {
     const emitter = this.create({ engineer });
     return this.save(emitter);
+  }
+
+  async deleteEmitter(emitterId: string): Promise<boolean> {
+    const emitter = await this.findOneBy({ id: emitterId });
+    if (!emitter) return true;
+
+    await this.softRemove([emitter]);
+    return true;
   }
 }
