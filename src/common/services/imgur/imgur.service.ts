@@ -23,6 +23,15 @@ export class ImgurService {
     private imgurClient: ImgurClient,
   ) {}
 
+  async getAlbumPhotosUrls(albumId: string): Promise<string[]> {
+    try {
+      const { data } = await this.imgurClient.getAlbum(albumId);
+      return data.images.map(({ link }) => link);
+    } catch (error) {
+      return [];
+    }
+  }
+
   async uploadPhotosToAlbum({
     photos,
     albumTitle,

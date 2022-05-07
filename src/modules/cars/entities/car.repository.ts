@@ -1,6 +1,7 @@
 import {
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
 import { Repository } from 'typeorm';
@@ -11,9 +12,16 @@ import { CustomRepository } from '@database/typeorm-ex.decorator';
 
 @CustomRepository(Car)
 export class CarsRepository extends Repository<Car> {
+  async getCar(carId: string) {
+    const car = this.findOneBy({ id: carId });
+    if (!car) {
+      throw new NotFoundException(`Car ${carId} cannot be found!`);
+    }
+    return car;
+  }
+
   async createCar(dto: CreateCarDto): Promise<Car> {
     const car = this.create(dto);
-
     try {
       return await this.save(car);
     } catch (error) {

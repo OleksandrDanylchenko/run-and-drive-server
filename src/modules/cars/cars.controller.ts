@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -14,20 +15,27 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CarsService } from '@cars/cars.service';
 import { CreateCarDto } from '@cars/dto/create-car.dto';
-import { Car } from '@cars/entities/car.entity';
+import { GetCarDto } from '@cars/dto/get-car.dto';
 import { ImgurAlbumIds } from '@common/types';
 
 @Controller('cars')
 export class CarsController {
   constructor(private carsService: CarsService) {}
 
-  @Post('create')
+  @Get(':id')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() dto: CreateCarDto): Promise<Car> {
-    return this.carsService.create(dto);
+  getCar(@Param('id') carId: string): Promise<GetCarDto> {
+    return this.carsService.get(carId);
   }
 
-  @Patch('/:id/photos')
+  @Post('create')
+  @HttpCode(HttpStatus.CREATED)
+  async createCar(@Body() dto: CreateCarDto): Promise<boolean> {
+    await this.carsService.create(dto);
+    return true;
+  }
+
+  @Patch(':id/photos')
   @UseInterceptors(FilesInterceptor('photos'))
   @HttpCode(HttpStatus.OK)
   async updateCarPhotos(
@@ -37,9 +45,9 @@ export class CarsController {
     return this.carsService.updatePhotos(carId, photos);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  logout(@Param('id') carId: string): Promise<boolean> {
+  deleteCar(@Param('id') carId: string): Promise<boolean> {
     return this.carsService.delete(carId);
   }
 }
