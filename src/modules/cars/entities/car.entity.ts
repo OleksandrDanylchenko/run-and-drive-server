@@ -37,8 +37,8 @@ export class Car {
   @Column({ length: 50 })
   color: string;
 
-  @Column({ name: 'photos_urls', type: 'varchar', array: true, default: [] })
-  photosUrls: string[];
+  @Column({ name: 'album_hash', unique: true, nullable: true })
+  albumHash?: string;
 
   @Column()
   mileage: number;
