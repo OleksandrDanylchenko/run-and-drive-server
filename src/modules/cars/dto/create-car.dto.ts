@@ -24,8 +24,8 @@ export class CreateCarDto {
   model: string;
 
   @IsNotEmpty()
-  @IsDate()
-  year: Date;
+  @IsInt()
+  year: number;
 
   @IsNotEmpty()
   @IsString()

@@ -30,7 +30,7 @@ export class Car {
   model: string;
 
   @Column()
-  year: Date;
+  year: number;
 
   @Column({ length: 50 })
   color: string;
