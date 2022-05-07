@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreateCarDto } from '@cars/dto/create-car.dto';
 import { GetCarDto } from '@cars/dto/get-car.dto';
+import { UpdateCarDto } from '@cars/dto/update-car.dto';
 import { Car } from '@cars/entities/car.entity';
 import { CarsRepository } from '@cars/entities/car.repository';
 import { ImgurService } from '@common/services/imgur/imgur.service';
@@ -33,6 +34,11 @@ export class CarsService {
 
   async create(dto: CreateCarDto): Promise<Car> {
     return this.carsRepository.createCar(dto);
+  }
+
+  async update(carId: string, dto: UpdateCarDto): Promise<Car> {
+    await this.carsRepository.update(carId, dto);
+    return this.get(carId);
   }
 
   async updatePhotos(

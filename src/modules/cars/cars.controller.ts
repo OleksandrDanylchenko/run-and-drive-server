@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Put,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -17,6 +18,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CarsService } from '@cars/cars.service';
 import { CreateCarDto } from '@cars/dto/create-car.dto';
 import { GetCarDto } from '@cars/dto/get-car.dto';
+import { UpdateCarDto } from '@cars/dto/update-car.dto';
 import { ImgurEntityIds } from '@common/types';
 
 @Controller('cars')
@@ -33,6 +35,16 @@ export class CarsController {
   @HttpCode(HttpStatus.CREATED)
   async createCar(@Body() dto: CreateCarDto): Promise<boolean> {
     await this.carsService.create(dto);
+    return true;
+  }
+
+  @Put('/:id')
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Param('id', ParseUUIDPipe) carId: string,
+    @Body() dto: UpdateCarDto,
+  ): Promise<boolean> {
+    await this.carsService.update(carId, dto);
     return true;
   }
 
