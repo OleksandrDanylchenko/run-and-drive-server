@@ -1,7 +1,8 @@
+import { Type } from 'class-transformer';
 import {
-  IsDate,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsString,
   Length,
   MaxLength,
@@ -24,6 +25,7 @@ export class CreateCarDto {
   model: string;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsInt()
   year: number;
 
@@ -33,14 +35,17 @@ export class CreateCarDto {
   color: string;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsInt()
   mileage: number;
 
   @IsNotEmpty()
-  @IsInt()
+  @Type(() => Number)
+  @IsNumber({ maxDecimalPlaces: 1 })
   engineCapacity: number;
 
   @IsNotEmpty()
+  @Type(() => Number)
   @IsInt()
   fuelCapacity: number;
 }
