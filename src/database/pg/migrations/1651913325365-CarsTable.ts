@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CarsTable1651912826498 implements MigrationInterface {
-  name = 'CarsTable1651912826498';
+export class CarsTable1651913325365 implements MigrationInterface {
+  name = 'CarsTable1651913325365';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -14,7 +14,7 @@ export class CarsTable1651912826498 implements MigrationInterface {
                 "color" character varying(50) NOT NULL,
                 "photos_urls" character varying array NOT NULL,
                 "mileage" integer NOT NULL,
-                "engine_capacity" integer NOT NULL,
+                "engine_capacity" numeric(2, 1) NOT NULL,
                 "fuel_capacity" integer NOT NULL,
                 "created_at" TIMESTAMP NOT NULL DEFAULT now(),
                 "deleted_at" TIMESTAMP,

@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from '@auth/auth.module';
+import { CarsModule } from '@cars/cars.module';
 import { AtGuard } from '@common/guards';
 import { configValidationSchema } from '@config/config.schema';
 import mongoDataSource from '@config/mongo-data-source.config';
@@ -24,6 +25,7 @@ import { AppService } from './app.service';
     AuthModule,
     EngineersModule,
     EmittersModule,
+    CarsModule,
   ],
   controllers: [AppController],
   providers: [
