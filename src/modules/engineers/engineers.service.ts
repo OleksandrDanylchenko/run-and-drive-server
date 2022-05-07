@@ -21,8 +21,6 @@ export class EngineersService {
   async create(dto: AuthSignupDto): Promise<Engineer> {
     await this.authService.signupLocal(dto);
 
-    debugger;
-
     const user = await this.usersRepository.findOneBy({ email: dto.email });
     return this.engineersRepository.createEngineer(user);
   }
