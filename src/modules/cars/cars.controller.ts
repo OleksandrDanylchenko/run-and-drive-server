@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   UploadedFiles,
@@ -24,7 +25,7 @@ export class CarsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.CREATED)
-  getCar(@Param('id') carId: string): Promise<GetCarDto> {
+  getCar(@Param('id', ParseUUIDPipe) carId: string): Promise<GetCarDto> {
     return this.carsService.getDto(carId);
   }
 
@@ -39,7 +40,7 @@ export class CarsController {
   @UseInterceptors(FilesInterceptor('photos'))
   @HttpCode(HttpStatus.OK)
   async updateCarPhotos(
-    @Param('id') carId: string,
+    @Param('id', ParseUUIDPipe) carId: string,
     @UploadedFiles() photos: Array<Express.Multer.File>,
   ): Promise<ImgurEntityIds> {
     return this.carsService.updatePhotos(carId, photos);

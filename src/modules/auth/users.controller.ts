@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Patch,
   Put,
   UploadedFile,
@@ -23,14 +24,14 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.CREATED)
-  getUser(@Param('id') userId: string): Promise<GetUserDto> {
+  getUser(@Param('id', ParseUUIDPipe) userId: string): Promise<GetUserDto> {
     return this.usersService.getDto(userId);
   }
 
   @Put('/:id')
   @HttpCode(HttpStatus.OK)
   async update(
-    @Param('id') userId: string,
+    @Param('id', ParseUUIDPipe) userId: string,
     @Body() dto: UpdateUserDto,
   ): Promise<boolean> {
     await this.usersService.update(userId, dto);
@@ -41,7 +42,7 @@ export class UsersController {
   @UseInterceptors(FileInterceptor('photo'))
   @HttpCode(HttpStatus.OK)
   async updateUserPhoto(
-    @Param('id') userId: string,
+    @Param('id', ParseUUIDPipe) userId: string,
     @UploadedFile() photo: Express.Multer.File,
   ): Promise<ImgurEntityIds> {
     return this.usersService.updatePhoto(userId, photo);
