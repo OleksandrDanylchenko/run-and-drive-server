@@ -16,8 +16,12 @@ export class CarsService {
     private imgurService: ImgurService,
   ) {}
 
-  async get(carId: string): Promise<GetCarDto> {
-    const { album, ...car } = await this.carsRepository.getCar(carId);
+  async get(carId: string): Promise<Car> {
+    return this.carsRepository.getCar(carId);
+  }
+
+  async getDto(carId: string): Promise<GetCarDto> {
+    const { album, ...car } = await this.get(carId);
     const photosUrls = album?.id
       ? await this.imgurService.getAlbumPhotosUrls(album.id)
       : [];

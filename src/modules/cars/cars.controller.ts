@@ -25,7 +25,7 @@ export class CarsController {
   @Get(':id')
   @HttpCode(HttpStatus.CREATED)
   getCar(@Param('id') carId: string): Promise<GetCarDto> {
-    return this.carsService.get(carId);
+    return this.carsService.getDto(carId);
   }
 
   @Post('create')

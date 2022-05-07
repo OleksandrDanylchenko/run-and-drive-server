@@ -19,7 +19,6 @@ export class UsersRepository extends Repository<User> {
       where: { id: userId },
       relations: { engineer: true },
     });
-    console.log(user);
     if (
       !user ||
       user.engineer // Do not return engineers as plain users

@@ -1,8 +1,5 @@
-export class GetUserDto {
-  id: string;
-  name: string;
-  surname: string;
-  email: string;
-  phone: string;
+import { UpdateUserDto } from '@auth/dto/update-user.dto';
+
+export class GetUserDto extends UpdateUserDto {
   photoUrl?: string;
 }
