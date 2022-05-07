@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -18,6 +19,7 @@ export class Car {
     nullable: true,
     onDelete: 'SET NULL',
   })
+  @Exclude({ toPlainOnly: true })
   emitter?: Emitter;
 
   @Column({ length: 17, unique: true })
@@ -35,13 +37,13 @@ export class Car {
   @Column({ length: 50 })
   color: string;
 
-  @Column({ name: 'photos_urls', type: 'varchar', array: true })
+  @Column({ name: 'photos_urls', type: 'varchar', array: true, default: [] })
   photosUrls: string[];
 
   @Column()
   mileage: number;
 
-  @Column({ name: 'engine_capacity' })
+  @Column({ name: 'engine_capacity', type: 'decimal', precision: 2, scale: 1 })
   engineCapacity: number;
 
   @Column({ name: 'fuel_capacity' })

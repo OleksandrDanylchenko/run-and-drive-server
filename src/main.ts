@@ -12,7 +12,7 @@ async function bootstrap() {
     origin: [/localhost:(3000|3100)/], // Local development addresses for the admin & emitter apps
   });
   app.use(helmet());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const configService = app.get(ConfigService);
   const port = configService.get('PORT');
