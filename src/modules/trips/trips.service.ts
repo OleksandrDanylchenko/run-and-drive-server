@@ -35,24 +35,34 @@ export class TripsService {
   async findOne(tripId: string): Promise<GetTripDto> {
     const {
       id,
-      carId,
+      car,
       userId,
       startLocation: startLocationPoint,
       startTime,
       endLocation: endLocationPoint,
       endTime,
-    } = await this.get(tripId);
+    } = await this.tripsRepository.findOne({
+      where: { id: tripId },
+      relations: { car: true },
+    });
+
+    const { id: carId, brand, model, color } = car;
+    const user = await this.usersService.findOne(userId);
 
     const startLocation = getLiteralFromPoint(startLocationPoint);
     const endLocation = endLocationPoint
       ? getLiteralFromPoint(endLocationPoint)
       : undefined;
 
-    const car = await this.carsService.findOne(carId);
-    const user = await this.usersService.findOne(userId);
-
     return {
       id,
+      car: {
+        id: carId,
+        brand,
+        model,
+        color,
+      },
+      user,
       start: {
         location: startLocation,
         time: startTime,
@@ -63,8 +73,6 @@ export class TripsService {
             time: endTime,
           }
         : undefined,
-      car,
-      user,
     };
   }
 

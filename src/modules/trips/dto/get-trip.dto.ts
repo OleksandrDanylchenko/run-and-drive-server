@@ -11,6 +11,10 @@ export class GetTripDto {
     location: google.maps.LatLngLiteral;
     time: Date;
   };
-  user: GetUserDto;
-  car: GetCarDto;
+  user: TripUserDto;
+  car: TripCarDto;
 }
+
+export type TripUserDto = GetUserDto;
+
+export type TripCarDto = Pick<GetCarDto, 'id' | 'brand' | 'model' | 'color'>;
