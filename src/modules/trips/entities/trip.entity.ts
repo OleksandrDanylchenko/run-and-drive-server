@@ -8,6 +8,7 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 
 import { User } from '@auth/entities/user.entity';
@@ -27,9 +28,15 @@ export class Trip {
   @JoinColumn([{ name: 'car_id' }])
   car: Car;
 
+  @RelationId((trip: Trip) => trip.car, 'car_id')
+  carId: number;
+
   @ManyToOne(() => User, (users) => users.trips)
   @JoinColumn([{ name: 'user_id' }])
   user: User;
+
+  @RelationId((trip: Trip) => trip.user, 'user_id')
+  userId: number;
 
   @Index({ spatial: true })
   @Column({
