@@ -19,10 +19,7 @@ export class UsersRepository extends Repository<User> {
       where: { id: userId },
       relations: { engineer: true },
     });
-    if (
-      !user ||
-      user.engineer // Do not return engineers as plain users
-    ) {
+    if (!user) {
       throw new NotFoundException(`User ${userId} cannot be found!`);
     }
     return user;
