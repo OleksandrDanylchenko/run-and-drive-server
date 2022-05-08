@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon from 'argon2';
+import { IsNull } from 'typeorm';
 
 import { AtToken } from '@auth/types';
 import { CarsRepository } from '@cars/entities/car.repository';
@@ -47,8 +48,12 @@ export class EmittersService {
     );
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
-    const car = await this.carsRepository.findOneBy({
-      activationCode: carActivationCode,
+    const car = await this.carsRepository.findOne({
+      where: {
+        activationCode: carActivationCode,
+        emitter: IsNull(),
+      },
+      loadRelationIds: true,
     });
     if (!car) {
       throw new ForbiddenException('Access Denied');
@@ -75,5 +80,15 @@ export class EmittersService {
       secret: this.config.get<string>('JWT_SECRET'),
     });
     return { accessToken };
+  }
+
+  async getActiveTrip(emitterId: string): Promise<Trip | undefined> {
+    const emitter = await this.emittersRepository.getEmitter(emitterId, {
+      car: true,
+    });
+    if (!emitter) {
+      throw new NotFoundException(`Emitter ${emitterId} cannot be found!`);
+    }
+    return this.tripsRepository.getActiveTripForCar(emitter.car.id);
   }
 }
