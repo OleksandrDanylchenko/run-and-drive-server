@@ -55,7 +55,7 @@ export class TripsService {
     const {
       id,
       car,
-      userId,
+      user_id,
       startLocation: startLocationPoint,
       startTime,
       endLocation: endLocationPoint,
@@ -63,7 +63,7 @@ export class TripsService {
     } = trip;
 
     const { id: carId, brand, model, color } = car;
-    const user = await this.usersService.findOne(userId);
+    const user = await this.usersService.findOne(user_id);
 
     const startLocation = getLiteralFromPoint(startLocationPoint);
     const endLocation = endLocationPoint

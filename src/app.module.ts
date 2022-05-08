@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from '@auth/auth.module';
@@ -24,6 +25,7 @@ import { AppService } from './app.service';
     }),
     TypeOrmModule.forRoot(pgDataSource.options),
     TypeOrmModule.forRoot(mongoDataSource.options),
+    ScheduleModule.forRoot(),
     AuthModule,
     EngineersModule,
     EmittersModule,

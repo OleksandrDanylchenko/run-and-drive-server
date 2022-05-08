@@ -33,7 +33,7 @@ export class SensorsRecord {
   car: Car;
 
   @RelationId((sensorsRecord: SensorsRecord) => sensorsRecord.car, 'car_id')
-  carId: string;
+  car_id: string;
 
   @ManyToOne(() => Trip, (trip) => trip.sensorsRecords, {
     nullable: true,
@@ -43,7 +43,7 @@ export class SensorsRecord {
   trip?: Trip;
 
   @RelationId((sensorsRecord: SensorsRecord) => sensorsRecord.trip, 'trip_id')
-  tripId: string;
+  trip_id: string;
 
   @Index({ spatial: true })
   @Column({
