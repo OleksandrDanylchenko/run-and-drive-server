@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -14,6 +15,7 @@ import {
 
 import { ChangeResponseDto } from '@common/dto/change-response.dto';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { EndTripDto } from '@trips/dto/end-trip.dto';
 import { FindAllFilterDto } from '@trips/dto/find-all-filter.dto';
 import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
@@ -49,6 +51,16 @@ export class TripsController {
     @Body() dto: UpdateTripStageDto,
   ): Promise<ChangeResponseDto> {
     const { id } = await this.tripsService.updateStage(tripId, dto);
+    return { id };
+  }
+
+  @Patch(':id/end')
+  @HttpCode(HttpStatus.CREATED)
+  async endTrip(
+    @Param('id', ParseUUIDPipe) tripId: string,
+    @Body() dto: EndTripDto,
+  ): Promise<ChangeResponseDto> {
+    const { id } = await this.tripsService.endTrip(tripId, dto);
     return { id };
   }
 

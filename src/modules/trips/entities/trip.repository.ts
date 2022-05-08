@@ -6,6 +6,7 @@ import { User } from '@auth/entities/user.entity';
 import { Car } from '@cars/entities/car.entity';
 import { CustomRepository } from '@database/typeorm-ex.decorator';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { EndTripDto } from '@trips/dto/end-trip.dto';
 import { FindAllFilterDto, TripState } from '@trips/dto/find-all-filter.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
 import { Trip } from '@trips/entities/trip.entity';
@@ -66,6 +67,14 @@ export class TripsRepository extends Repository<Trip> {
         );
       }
     }
+  }
+
+  async endTrip(tripId: string, dto: EndTripDto) {
+    const locationPoint = getPointFromLiteral(dto.location);
+    return this.update(
+      { id: tripId },
+      { endLocation: locationPoint, endTime: new Date() },
+    );
   }
 
   async removeTrip(tripId: string): Promise<boolean> {

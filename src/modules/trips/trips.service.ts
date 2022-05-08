@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { UsersService } from '@auth/users.service';
 import { CarsService } from '@cars/cars.service';
-import { GetCarDto } from '@cars/dto/get-car.dto';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { EndTripDto } from '@trips/dto/end-trip.dto';
 import { FindAllFilterDto } from '@trips/dto/find-all-filter.dto';
 import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
@@ -94,6 +94,11 @@ export class TripsService {
     }
 
     await this.tripsRepository.updateTripStage(tripId, dto);
+    return this.get(tripId);
+  }
+
+  async endTrip(tripId: string, dto: EndTripDto): Promise<Trip> {
+    await this.tripsRepository.endTrip(tripId, dto);
     return this.get(tripId);
   }
 
