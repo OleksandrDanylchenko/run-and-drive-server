@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   HttpStatus,
   Param,
@@ -33,5 +34,11 @@ export class TripsController {
   ): Promise<ChangeResponseDto> {
     const { id } = await this.tripsService.updateStage(tripId, dto);
     return { id };
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  remove(@Param('id') tripId: string): Promise<boolean> {
+    return this.tripsService.remove(tripId);
   }
 }

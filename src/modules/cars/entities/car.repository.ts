@@ -33,7 +33,7 @@ export class CarsRepository extends Repository<Car> {
     }
   }
 
-  async deleteCar(carId: string): Promise<boolean> {
+  async removeCar(carId: string): Promise<boolean> {
     const car = await this.findOneBy({ id: carId });
     if (!car) return true;
 

@@ -49,4 +49,12 @@ export class TripsRepository extends Repository<Trip> {
       }
     }
   }
+
+  async removeTrip(tripId: string): Promise<boolean> {
+    const trip = await this.findOneBy({ id: tripId });
+    if (!trip) return true;
+
+    await this.softRemove([trip]);
+    return true;
+  }
 }

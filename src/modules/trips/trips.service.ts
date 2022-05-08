@@ -42,15 +42,7 @@ export class TripsService {
     return this.get(tripId);
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} sensor`;
-  // }
-  //
-  // update(id: number, updateSensorDto: UpdateSensorDto) {
-  //   return `This action updates a #${id} sensor`;
-  // }
-  //
-  // remove(id: number) {
-  //   return `This action removes a #${id} sensor`;
-  // }
+  remove(tripId: string) {
+    return this.tripsRepository.removeTrip(tripId);
+  }
 }

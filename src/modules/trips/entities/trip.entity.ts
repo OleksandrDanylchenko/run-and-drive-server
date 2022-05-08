@@ -2,6 +2,7 @@ import { Point } from 'geojson';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -58,4 +59,7 @@ export class Trip {
   // Stored in meters
   @Column({ name: 'total_distance', default: 0 })
   totalDistance: number;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 }

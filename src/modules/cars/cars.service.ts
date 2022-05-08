@@ -58,6 +58,6 @@ export class CarsService {
   }
 
   async remove(carId: string): Promise<boolean> {
-    return this.carsRepository.deleteCar(carId);
+    return this.carsRepository.removeCar(carId);
   }
 }
