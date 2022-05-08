@@ -12,6 +12,7 @@ import {
 
 import { ImgurEntityIds } from '@common/types';
 import { Emitter } from '@emitters/entities/emitter.entity';
+import { SensorsRecord } from '@sensors/entities/sensors_record.entity';
 import { Trip } from '@trips/entities/trip.entity';
 
 @Entity('cars')
@@ -56,6 +57,9 @@ export class Car {
 
   @OneToMany(() => Trip, (trip) => trip.car)
   trips: Trip[];
+
+  @OneToMany(() => SensorsRecord, (sensorsRecord) => sensorsRecord.car)
+  sensorsRecords: SensorsRecord[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

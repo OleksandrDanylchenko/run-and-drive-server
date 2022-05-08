@@ -7,12 +7,14 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
 
 import { User } from '@auth/entities/user.entity';
 import { Car } from '@cars/entities/car.entity';
+import { SensorsRecord } from '@sensors/entities/sensors_record.entity';
 
 export enum TripStages {
   'START' = 'START',
@@ -66,6 +68,9 @@ export class Trip {
   // Stored in meters
   @Column({ name: 'total_distance', default: 0 })
   totalDistance: number;
+
+  @OneToMany(() => SensorsRecord, (sensorsRecord) => sensorsRecord.car)
+  sensorsRecords: SensorsRecord[];
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt?: Date;
