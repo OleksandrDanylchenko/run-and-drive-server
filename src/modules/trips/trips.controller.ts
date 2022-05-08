@@ -9,10 +9,12 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 import { ChangeResponseDto } from '@common/dto/change-response.dto';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { FindAllFilterDto } from '@trips/dto/find-all-filter.dto';
 import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
 import { TripsService } from '@trips/trips.service';
@@ -28,8 +30,14 @@ export class TripsController {
     return { id };
   }
 
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll(@Query() filterDto: FindAllFilterDto): Promise<GetTripDto[]> {
+    return this.tripsService.findAll(filterDto);
+  }
+
   @Get(':id')
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   async findOne(carId: string): Promise<GetTripDto> {
     return this.tripsService.findOne(carId);
   }

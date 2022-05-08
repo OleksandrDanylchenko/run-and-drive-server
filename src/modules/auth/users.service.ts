@@ -22,17 +22,22 @@ export class UsersService {
   }
 
   async findOne(userId: string): Promise<GetUserDto> {
+    const user = await this.get(userId);
+    return this.createUserDto(user);
+  }
+
+  async createUserDto(user: User) {
     const {
       photo,
       password: _p,
       refreshTokenHash: _rt,
       engineer: _e,
-      ...user
-    } = await this.get(userId);
+      ...dtoUserProps
+    } = user;
 
     const photoUrl = await this.imgurService.getPhotoUrl(photo.id);
     return {
-      ...user,
+      ...dtoUserProps,
       photoUrl,
     };
   }

@@ -5,6 +5,7 @@ import { UsersService } from '@auth/users.service';
 import { CarsService } from '@cars/cars.service';
 import { GetCarDto } from '@cars/dto/get-car.dto';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { FindAllFilterDto } from '@trips/dto/find-all-filter.dto';
 import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
 import { Trip, TripStages } from '@trips/entities/trip.entity';
@@ -32,7 +33,17 @@ export class TripsService {
     return this.tripsRepository.createTrip(dto, car, user);
   }
 
+  async findAll(filterDto: FindAllFilterDto): Promise<GetTripDto[]> {
+    const trips = await this.tripsRepository.getTrips(filterDto, { car: true });
+    return Promise.all(trips.map((trip) => this.createTripDto(trip)));
+  }
+
   async findOne(tripId: string): Promise<GetTripDto> {
+    const trip = await this.tripsRepository.getTrip(tripId, { car: true });
+    return this.createTripDto(trip);
+  }
+
+  async createTripDto(trip: Trip) {
     const {
       id,
       car,
@@ -41,10 +52,7 @@ export class TripsService {
       startTime,
       endLocation: endLocationPoint,
       endTime,
-    } = await this.tripsRepository.findOne({
-      where: { id: tripId },
-      relations: { car: true },
-    });
+    } = trip;
 
     const { id: carId, brand, model, color } = car;
     const user = await this.usersService.findOne(userId);
@@ -79,7 +87,7 @@ export class TripsService {
   async updateStage(tripId: string, dto: UpdateTripStageDto): Promise<Trip> {
     const trip = await this.get(tripId);
 
-    if (dto.stage === TripStages.end && !trip.endTime) {
+    if (dto.stage === TripStages.END && !trip.endTime) {
       throw new BadRequestException(
         `The trip ${tripId} hasn't been finished yet to update the "end" stage`,
       );
