@@ -10,9 +10,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Trip } from '@/modules/trips/entities/trip.entity';
 import { ImgurEntityIds } from '@common/types';
 import { Emitter } from '@emitters/entities/emitter.entity';
+import { Trip } from '@trips/entities/trip.entity';
 
 @Entity('cars')
 export class Car {

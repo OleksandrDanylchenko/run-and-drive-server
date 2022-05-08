@@ -19,23 +19,24 @@ import { CarsService } from '@cars/cars.service';
 import { CreateCarDto } from '@cars/dto/create-car.dto';
 import { GetCarDto } from '@cars/dto/get-car.dto';
 import { UpdateCarDto } from '@cars/dto/update-car.dto';
+import { ChangeResponseDto } from '@common/dto/change-response.dto';
 import { ImgurEntityIds } from '@common/types';
 
 @Controller('cars')
 export class CarsController {
   constructor(private carsService: CarsService) {}
 
-  @Get(':id')
+  @Post()
   @HttpCode(HttpStatus.CREATED)
-  getCar(@Param('id', ParseUUIDPipe) carId: string): Promise<GetCarDto> {
-    return this.carsService.getDto(carId);
+  async create(@Body() dto: CreateCarDto): Promise<ChangeResponseDto> {
+    const { id } = await this.carsService.create(dto);
+    return { id };
   }
 
-  @Post('create')
+  @Get(':id')
   @HttpCode(HttpStatus.CREATED)
-  async createCar(@Body() dto: CreateCarDto): Promise<boolean> {
-    await this.carsService.create(dto);
-    return true;
+  findOne(@Param('id', ParseUUIDPipe) carId: string): Promise<GetCarDto> {
+    return this.carsService.findOne(carId);
   }
 
   @Put('/:id')
@@ -43,15 +44,15 @@ export class CarsController {
   async update(
     @Param('id', ParseUUIDPipe) carId: string,
     @Body() dto: UpdateCarDto,
-  ): Promise<boolean> {
-    await this.carsService.update(carId, dto);
-    return true;
+  ): Promise<ChangeResponseDto> {
+    const { id } = await this.carsService.update(carId, dto);
+    return { id };
   }
 
   @Patch(':id/photos')
   @UseInterceptors(FilesInterceptor('photos'))
   @HttpCode(HttpStatus.OK)
-  async updateCarPhotos(
+  async updatePhotos(
     @Param('id', ParseUUIDPipe) carId: string,
     @UploadedFiles() photos: Array<Express.Multer.File>,
   ): Promise<ImgurEntityIds> {
@@ -60,7 +61,7 @@ export class CarsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  deleteCar(@Param('id') carId: string): Promise<boolean> {
-    return this.carsService.delete(carId);
+  remove(@Param('id') carId: string): Promise<boolean> {
+    return this.carsService.remove(carId);
   }
 }

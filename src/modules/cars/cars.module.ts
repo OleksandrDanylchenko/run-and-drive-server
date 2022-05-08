@@ -10,5 +10,6 @@ import { TypeOrmExModule } from '@database/typeorm-ex.module';
   imports: [TypeOrmExModule.forCustomRepository([CarsRepository]), ImgurModule],
   controllers: [CarsController],
   providers: [CarsService],
+  exports: [CarsService],
 })
 export class CarsModule {}

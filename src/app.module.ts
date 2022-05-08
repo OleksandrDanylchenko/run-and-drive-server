@@ -11,6 +11,7 @@ import mongoDataSource from '@config/mongo-data-source.config';
 import pgDataSource from '@config/pg-data-source.config';
 import { EmittersModule } from '@emitters/emitters.module';
 import { EngineersModule } from '@engineers/engineers.module';
+import { TripsModule } from '@trips/trips.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -26,6 +27,7 @@ import { AppService } from './app.service';
     EngineersModule,
     EmittersModule,
     CarsModule,
+    TripsModule,
   ],
   controllers: [AppController],
   providers: [

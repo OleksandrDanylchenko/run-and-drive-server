@@ -21,7 +21,11 @@ export class CarsService {
     return this.carsRepository.getCar(carId);
   }
 
-  async getDto(carId: string): Promise<GetCarDto> {
+  async create(dto: CreateCarDto): Promise<Car> {
+    return this.carsRepository.createCar(dto);
+  }
+
+  async findOne(carId: string): Promise<GetCarDto> {
     const { album, ...car } = await this.get(carId);
     const photosUrls = album?.id
       ? await this.imgurService.getAlbumPhotosUrls(album.id)
@@ -30,10 +34,6 @@ export class CarsService {
       ...car,
       photosUrls,
     };
-  }
-
-  async create(dto: CreateCarDto): Promise<Car> {
-    return this.carsRepository.createCar(dto);
   }
 
   async update(carId: string, dto: UpdateCarDto): Promise<Car> {
@@ -57,7 +57,7 @@ export class CarsService {
     return newAlbumIds;
   }
 
-  async delete(carId: string): Promise<boolean> {
+  async remove(carId: string): Promise<boolean> {
     return this.carsRepository.deleteCar(carId);
   }
 }

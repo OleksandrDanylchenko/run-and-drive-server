@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { Trip } from '@/modules/trips/entities/trip.entity';
 import { ImgurEntityIds } from '@common/types';
 import { Engineer } from '@engineers/entities/engineer.entity';
+import { Trip } from '@trips/entities/trip.entity';
 
 @Entity('users')
 export class User {

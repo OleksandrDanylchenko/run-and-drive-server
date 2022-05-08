@@ -21,6 +21,6 @@ import { AtStrategy, RtStrategy } from './strategies';
   ],
   controllers: [AuthController, UsersController],
   providers: [AuthService, UsersService, AtStrategy, RtStrategy],
-  exports: [AuthService],
+  exports: [AuthService, UsersService],
 })
 export class AuthModule {}

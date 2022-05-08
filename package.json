@@ -29,6 +29,7 @@
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.4.4",
     "@nestjs/jwt": "^8.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.4.4",
     "@nestjs/typeorm": "^9.0.0-next.2",
@@ -56,6 +57,7 @@
     "@nestjs/testing": "^8.4.4",
     "@types/express": "^4.17.11",
     "@types/geojson": "^7946.0.8",
+    "@types/google.maps": "^3.48.7",
     "@types/jest": "^26.0.22",
     "@types/multer": "^1.4.7",
     "@types/node": "^17.0.30",
@@ -102,7 +104,8 @@
       "^@auth/(.*)$": "<rootDir>/../src/modules/auth/$1",
       "^@engineers/(.*)$": "<rootDir>/../src/modules/engineers/$1",
       "^@emitters/(.*)$": "<rootDir>/../src/modules/emitters/$1",
-      "^@cars/(.*)$": "<rootDir>/../src/modules/cars/$1"
+      "^@cars/(.*)$": "<rootDir>/../src/modules/cars/$1",
+      "^@trips/(.*)$": "<rootDir>/../src/modules/trips/$1"
     }
   }
 }

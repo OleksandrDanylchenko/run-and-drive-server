@@ -15,6 +15,7 @@
     "^@auth/(.*)$": "<rootDir>/../src/modules/auth/$1",
     "^@engineers/(.*)$": "<rootDir>/../src/modules/engineers/$1",
     "^@emitters/(.*)$": "<rootDir>/../src/modules/emitters/$1",
-    "^@cars/(.*)$": "<rootDir>/../src/modules/cars/$1"
+    "^@cars/(.*)$": "<rootDir>/../src/modules/cars/$1",
+    "^@trips/(.*)$": "<rootDir>/../src/modules/trips/$1"
   }
 }

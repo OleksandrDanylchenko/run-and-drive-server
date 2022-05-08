@@ -23,7 +23,8 @@
       "@auth/*": ["src/modules/auth/*"],
       "@engineers/*": ["src/modules/engineers/*"],
       "@emitters/*": ["src/modules/emitters/*"],
-      "@cars/*": ["src/modules/cars/*"]
+      "@cars/*": ["src/modules/cars/*"],
+      "@trips/*": ["src/modules/trips/*"]
     }
   }
 }
