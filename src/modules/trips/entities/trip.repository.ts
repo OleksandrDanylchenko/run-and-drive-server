@@ -33,6 +33,7 @@ export class TripsRepository extends Repository<Trip> {
     const { stage, location, time } = dto;
     const locationPoint = location ? getPointFromLiteral(location) : undefined;
 
+    if (!location && !time) return;
     switch (stage) {
       case 'start': {
         return this.update(
