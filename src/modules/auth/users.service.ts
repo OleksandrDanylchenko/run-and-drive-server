@@ -21,7 +21,7 @@ export class UsersService {
     return this.usersRepository.getUser(userId);
   }
 
-  async getDto(userId: string): Promise<GetUserDto> {
+  async findOne(userId: string): Promise<GetUserDto> {
     const {
       photo,
       password: _p,

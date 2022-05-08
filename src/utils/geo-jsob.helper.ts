@@ -9,3 +9,15 @@ export const getPointFromLiteral = (
     coordinates: [lng, lat],
   };
 };
+
+export const getLiteralFromPoint = (
+  point: Point,
+): google.maps.LatLngLiteral => {
+  const {
+    coordinates: [lng, lat],
+  } = point;
+  return {
+    lat,
+    lng,
+  };
+};

@@ -3,10 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { UsersService } from '@auth/users.service';
 import { CarsService } from '@cars/cars.service';
+import { GetCarDto } from '@cars/dto/get-car.dto';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
 import { Trip, TripStages } from '@trips/entities/trip.entity';
 import { TripsRepository } from '@trips/entities/trip.repository';
+import { getLiteralFromPoint } from '@utils/geo-jsob.helper';
 
 @Injectable()
 export class TripsService {
@@ -27,6 +30,42 @@ export class TripsService {
     const user = await this.usersService.get(userId);
 
     return this.tripsRepository.createTrip(dto, car, user);
+  }
+
+  async findOne(tripId: string): Promise<GetTripDto> {
+    const {
+      id,
+      carId,
+      userId,
+      startLocation: startLocationPoint,
+      startTime,
+      endLocation: endLocationPoint,
+      endTime,
+    } = await this.get(tripId);
+
+    const startLocation = getLiteralFromPoint(startLocationPoint);
+    const endLocation = endLocationPoint
+      ? getLiteralFromPoint(endLocationPoint)
+      : undefined;
+
+    const car = await this.carsService.findOne(carId);
+    const user = await this.usersService.findOne(userId);
+
+    return {
+      id,
+      start: {
+        location: startLocation,
+        time: startTime,
+      },
+      end: endLocation
+        ? {
+            location: endLocation,
+            time: endTime,
+          }
+        : undefined,
+      car,
+      user,
+    };
   }
 
   async updateStage(tripId: string, dto: UpdateTripStageDto): Promise<Trip> {

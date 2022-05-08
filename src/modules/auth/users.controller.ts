@@ -25,7 +25,7 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.CREATED)
   getUser(@Param('id', ParseUUIDPipe) userId: string): Promise<GetUserDto> {
-    return this.usersService.getDto(userId);
+    return this.usersService.findOne(userId);
   }
 
   @Put('/:id')

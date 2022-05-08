@@ -29,14 +29,14 @@ export class Trip {
   car: Car;
 
   @RelationId((trip: Trip) => trip.car, 'car_id')
-  carId: number;
+  carId: string;
 
   @ManyToOne(() => User, (users) => users.trips)
   @JoinColumn([{ name: 'user_id' }])
   user: User;
 
   @RelationId((trip: Trip) => trip.user, 'user_id')
-  userId: number;
+  userId: string;
 
   @Index({ spatial: true })
   @Column({

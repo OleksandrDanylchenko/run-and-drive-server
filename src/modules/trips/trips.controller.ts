@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
@@ -12,6 +13,7 @@ import {
 
 import { ChangeResponseDto } from '@common/dto/change-response.dto';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
+import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
 import { TripsService } from '@trips/trips.service';
 
@@ -24,6 +26,12 @@ export class TripsController {
   async create(@Body() dto: CreateTripDto): Promise<ChangeResponseDto> {
     const { id } = await this.tripsService.create(dto);
     return { id };
+  }
+
+  @Get(':id')
+  @HttpCode(HttpStatus.CREATED)
+  async findOne(carId: string): Promise<GetTripDto> {
+    return this.tripsService.findOne(carId);
   }
 
   @Put(':id')
