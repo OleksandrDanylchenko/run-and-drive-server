@@ -8,7 +8,7 @@ import { SensorsService } from '@sensors/sensors.service';
 export class SensorsController {
   constructor(private sensorsService: SensorsService) {}
 
-  @Post('/record')
+  @Post('record')
   @HttpCode(HttpStatus.CREATED)
   async createRecord(
     @Body() dto: CreateSensorsRecordDto,

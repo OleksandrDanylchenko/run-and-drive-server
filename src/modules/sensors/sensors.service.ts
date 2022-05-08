@@ -20,9 +20,14 @@ export class SensorsService {
   async createRecord(dto: CreateSensorsRecordDto) {
     const { carId } = dto;
     const car = await this.carsService.get(carId);
-    const activeTrip = await this.tripsRepository.findOneBy({
-      carId,
-      endTime: Not(IsNull()),
+    const activeTrip = await this.tripsRepository.findOne({
+      where: {
+        car: {
+          id: carId,
+        },
+        endTime: IsNull(),
+      },
+      loadRelationIds: true,
     });
     return this.sensorsRepository.createRecord(dto, car, activeTrip);
   }

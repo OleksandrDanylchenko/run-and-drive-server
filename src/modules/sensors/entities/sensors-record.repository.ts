@@ -14,7 +14,7 @@ export class SensorsRepository extends Repository<SensorsRecord> {
     car: Car,
     trip?: Trip,
   ): Promise<SensorsRecord> {
-    const { location, fuelTankOccupancy, wheelsPressure } = dto;
+    const { location, fuelTankOccupancy, wheelsPressure, timestamp } = dto;
 
     const locationPoint = getPointFromLiteral(location);
     const sensorsRecord = this.create({
@@ -23,6 +23,7 @@ export class SensorsRepository extends Repository<SensorsRecord> {
       location: locationPoint,
       fuelTankOccupancy,
       wheelsPressure,
+      timestamp,
     });
     return this.save(sensorsRecord);
   }
