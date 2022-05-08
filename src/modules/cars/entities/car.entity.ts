@@ -20,6 +20,9 @@ export class Car {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ name: 'activation_code', length: 8, unique: true })
+  activationCode: string;
+
   @OneToOne(() => Emitter, (emitter) => emitter.car, {
     nullable: true,
     onDelete: 'SET NULL',

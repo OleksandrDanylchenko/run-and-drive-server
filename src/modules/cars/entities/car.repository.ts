@@ -3,6 +3,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { nanoid } from 'nanoid';
 import { PostgresError } from 'pg-error-enum';
 import { Repository } from 'typeorm';
 
@@ -21,7 +22,7 @@ export class CarsRepository extends Repository<Car> {
   }
 
   async createCar(dto: CreateCarDto): Promise<Car> {
-    const car = this.create(dto);
+    const car = this.create({ ...dto, activationCode: nanoid(8) });
     try {
       return await this.save(car);
     } catch (error) {

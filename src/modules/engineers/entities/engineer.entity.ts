@@ -16,7 +16,7 @@ export class Engineer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'activation_login', length: 200, unique: true })
+  @Column({ name: 'activation_login', length: 8, unique: true })
   activationLogin: string;
 
   @Column({ name: 'employee_number' })
