@@ -14,7 +14,7 @@ import {
 
 import { User } from '@auth/entities/user.entity';
 import { Car } from '@cars/entities/car.entity';
-import { SensorsRecord } from '@sensors/entities/sensors_record.entity';
+import { SensorsRecord } from '@sensors/entities/sensors-record.entity';
 
 export enum TripStages {
   'START' = 'START',

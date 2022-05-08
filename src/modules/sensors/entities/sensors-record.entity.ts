@@ -31,9 +31,12 @@ export class SensorsRecord {
   @RelationId((sensorsRecord: SensorsRecord) => sensorsRecord.car, 'car_id')
   carId: string;
 
-  @ManyToOne(() => Trip, (trip) => trip.sensorsRecords)
+  @ManyToOne(() => Trip, (trip) => trip.sensorsRecords, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn([{ name: 'trip_id' }])
-  trip: Trip;
+  trip?: Trip;
 
   @RelationId((sensorsRecord: SensorsRecord) => sensorsRecord.trip, 'trip_id')
   tripId: string;

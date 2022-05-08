@@ -12,7 +12,7 @@ import {
 
 import { ImgurEntityIds } from '@common/types';
 import { Emitter } from '@emitters/entities/emitter.entity';
-import { SensorsRecord } from '@sensors/entities/sensors_record.entity';
+import { SensorsRecord } from '@sensors/entities/sensors-record.entity';
 import { Trip } from '@trips/entities/trip.entity';
 
 @Entity('cars')
