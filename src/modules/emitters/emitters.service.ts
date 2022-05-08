@@ -1,13 +1,20 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon from 'argon2';
 
 import { AtToken } from '@auth/types';
+import { CarsRepository } from '@cars/entities/car.repository';
 import { RegisterEmitterDto } from '@emitters/dto/register-emitter.dto';
 import { EmittersRepository } from '@emitters/entities/emitter.repository';
 import { EngineersRepository } from '@engineers/entities/engineer.repository';
+import { Trip } from '@trips/entities/trip.entity';
+import { TripsRepository } from '@trips/entities/trip.repository';
 
 @Injectable()
 export class EmittersService {
@@ -15,13 +22,17 @@ export class EmittersService {
     @InjectRepository(EmittersRepository)
     private emittersRepository: EmittersRepository,
     @InjectRepository(EngineersRepository)
-    private readonly engineersRepository: EngineersRepository,
+    private engineersRepository: EngineersRepository,
+    @InjectRepository(TripsRepository)
+    private tripsRepository: TripsRepository,
+    @InjectRepository(CarsRepository)
+    private carsRepository: CarsRepository,
     private jwtService: JwtService,
     private config: ConfigService,
   ) {}
 
   async register(dto: RegisterEmitterDto): Promise<AtToken> {
-    const { activationLogin } = dto;
+    const { activationLogin, carActivationCode } = dto;
 
     const engineer = await this.engineersRepository.findOne({
       where: { activationLogin },
@@ -36,7 +47,18 @@ export class EmittersService {
     );
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
-    const { id } = await this.emittersRepository.registerEmitter(dto, engineer);
+    const car = await this.carsRepository.findOneBy({
+      activationCode: carActivationCode,
+    });
+    if (!car) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    const { id } = await this.emittersRepository.registerEmitter(
+      dto,
+      engineer,
+      car,
+    );
 
     const { accessToken } = await this.getToken(id, activationLogin);
     return { accessToken };

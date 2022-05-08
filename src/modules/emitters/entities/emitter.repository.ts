@@ -1,5 +1,7 @@
-import { Repository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
+import { FindOneOptions, Repository } from 'typeorm';
 
+import { Car } from '@cars/entities/car.entity';
 import { CustomRepository } from '@database/typeorm-ex.decorator';
 import { RegisterEmitterDto } from '@emitters/dto/register-emitter.dto';
 import { Emitter } from '@emitters/entities/emitter.entity';
@@ -10,8 +12,9 @@ export class EmittersRepository extends Repository<Emitter> {
   async registerEmitter(
     dto: RegisterEmitterDto,
     engineer: Engineer,
+    car: Car,
   ): Promise<Emitter> {
-    const emitter = this.create({ engineer });
+    const emitter = this.create({ engineer, car });
     return this.save(emitter);
   }
 

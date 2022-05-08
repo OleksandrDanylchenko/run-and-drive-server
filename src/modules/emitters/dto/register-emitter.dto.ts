@@ -8,5 +8,10 @@ export class RegisterEmitterDto {
 
   @IsNotEmpty()
   @IsString()
+  @Length(8, 8)
+  carActivationCode: string;
+
+  @IsNotEmpty()
+  @IsString()
   password: string;
 }

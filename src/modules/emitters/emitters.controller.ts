@@ -1,7 +1,15 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 
 import { AtToken } from '@auth/types';
 import { GetCurrentUserId, Public } from '@common/decorators';
+import { GetActiveTripDto } from '@emitters/dto/get-active-trip.dto';
 import { RegisterEmitterDto } from '@emitters/dto/register-emitter.dto';
 import { EmittersService } from '@emitters/emitters.service';
 
