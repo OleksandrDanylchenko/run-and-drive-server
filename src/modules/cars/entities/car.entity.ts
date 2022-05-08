@@ -5,10 +5,12 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Trip } from '@/modules/trips/entities/trip.entity';
 import { ImgurEntityIds } from '@common/types';
 import { Emitter } from '@emitters/entities/emitter.entity';
 
@@ -51,6 +53,9 @@ export class Car {
 
   @Column({ name: 'fuel_capacity' })
   fuelCapacity: number;
+
+  @OneToMany(() => Trip, (trip) => trip.car)
+  trips: Trip[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

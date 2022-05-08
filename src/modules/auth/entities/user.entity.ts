@@ -1,5 +1,12 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
+import { Trip } from '@/modules/trips/entities/trip.entity';
 import { ImgurEntityIds } from '@common/types';
 import { Engineer } from '@engineers/entities/engineer.entity';
 
@@ -34,4 +41,7 @@ export class User {
     onDelete: 'CASCADE',
   })
   engineer?: Engineer;
+
+  @OneToMany(() => Trip, (trip) => trip.user)
+  trips: Trip[];
 }
