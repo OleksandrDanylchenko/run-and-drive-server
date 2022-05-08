@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { UsersService } from '@auth/users.service';
 import { CarsService } from '@cars/cars.service';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
-import { Trip } from '@trips/entities/trip.entity';
+import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
+import { Trip, TripStages } from '@trips/entities/trip.entity';
 import { TripsRepository } from '@trips/entities/trip.repository';
 
 @Injectable()
@@ -26,6 +27,19 @@ export class TripsService {
     const user = await this.usersService.get(userId);
 
     return this.tripsRepository.createTrip(dto, car, user);
+  }
+
+  async updateStage(tripId: string, dto: UpdateTripStageDto): Promise<Trip> {
+    const trip = await this.get(tripId);
+
+    if (dto.stage === TripStages.end && !trip.endTime) {
+      throw new BadRequestException(
+        `The trip ${tripId} hasn't been finished yet to update the "end" stage`,
+      );
+    }
+
+    await this.tripsRepository.updateTripStage(tripId, dto);
+    return this.get(tripId);
   }
 
   // findOne(id: number) {

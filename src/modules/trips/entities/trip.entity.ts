@@ -12,6 +12,11 @@ import {
 import { User } from '@auth/entities/user.entity';
 import { Car } from '@cars/entities/car.entity';
 
+export enum TripStages {
+  'start' = 'start',
+  'end' = 'end',
+}
+
 @Entity('trips')
 export class Trip {
   @PrimaryGeneratedColumn('uuid')
