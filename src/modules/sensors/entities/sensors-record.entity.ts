@@ -19,7 +19,11 @@ export interface WheelsPressure {
   rearRight: number;
 }
 
-@Entity('sensors_records')
+@Entity('sensors_records', {
+  orderBy: {
+    timestamp: 'DESC',
+  },
+})
 export class SensorsRecord {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -21,7 +21,14 @@ export enum TripStages {
   'END' = 'END',
 }
 
-@Entity('trips')
+@Entity('trips', {
+  orderBy: {
+    endTime: {
+      order: 'DESC',
+      nulls: 'NULLS FIRST',
+    },
+  },
+})
 export class Trip {
   @PrimaryGeneratedColumn('uuid')
   id: string;
