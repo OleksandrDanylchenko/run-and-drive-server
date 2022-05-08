@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IsNull, Not } from 'typeorm';
 
 import { UsersService } from '@auth/users.service';
 import { CarsService } from '@cars/cars.service';
@@ -27,6 +28,17 @@ export class TripsService {
 
   async create(dto: CreateTripDto) {
     const { carId, userId } = dto;
+
+    const activeTrip = await this.tripsRepository.findOneBy({
+      carId,
+      endTime: Not(IsNull()),
+    });
+    if (activeTrip) {
+      throw new BadRequestException(
+        "Cannot star trip for the car that's already in use!",
+      );
+    }
+
     const car = await this.carsService.get(carId);
     const user = await this.usersService.get(userId);
 
