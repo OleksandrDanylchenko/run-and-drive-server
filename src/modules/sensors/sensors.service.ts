@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not } from 'typeorm';
 
 import { CarsService } from '@cars/cars.service';
 import { CreateSensorsRecordDto } from '@sensors/dto/create-record.dto';
@@ -20,15 +19,7 @@ export class SensorsService {
   async createRecord(dto: CreateSensorsRecordDto) {
     const { carId } = dto;
     const car = await this.carsService.get(carId);
-    const activeTrip = await this.tripsRepository.findOne({
-      where: {
-        car: {
-          id: carId,
-        },
-        endTime: IsNull(),
-      },
-      loadRelationIds: true,
-    });
+    const activeTrip = await this.tripsRepository.getActiveTripForCar(carId);
     return this.sensorsRepository.createRecord(dto, car, activeTrip);
   }
 }

@@ -6,9 +6,24 @@ import { CustomRepository } from '@database/typeorm-ex.decorator';
 import { RegisterEmitterDto } from '@emitters/dto/register-emitter.dto';
 import { Emitter } from '@emitters/entities/emitter.entity';
 import { Engineer } from '@engineers/entities/engineer.entity';
+import { Trip } from '@trips/entities/trip.entity';
 
 @CustomRepository(Emitter)
 export class EmittersRepository extends Repository<Emitter> {
+  async getEmitter(
+    emitterId: string,
+    relations?: FindOneOptions<Trip>['relations'],
+  ) {
+    const trip = await this.findOne({
+      where: { id: emitterId },
+      relations,
+    });
+    if (!trip) {
+      throw new NotFoundException(`Emitter ${emitterId} cannot be found!`);
+    }
+    return trip;
+  }
+
   async registerEmitter(
     dto: RegisterEmitterDto,
     engineer: Engineer,

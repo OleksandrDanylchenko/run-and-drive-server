@@ -1,5 +1,4 @@
 import { NotFoundException } from '@nestjs/common';
-import { IsNotEmpty } from 'class-validator';
 import { FindOneOptions, IsNull, Not, Repository } from 'typeorm';
 
 import { User } from '@auth/entities/user.entity';
@@ -83,5 +82,17 @@ export class TripsRepository extends Repository<Trip> {
 
     await this.softRemove([trip]);
     return true;
+  }
+
+  getActiveTripForCar(carId: string) {
+    return this.findOne({
+      where: {
+        car: {
+          id: carId,
+        },
+        endTime: IsNull(),
+      },
+      loadRelationIds: true,
+    });
   }
 }

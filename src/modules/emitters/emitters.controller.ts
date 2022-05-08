@@ -29,4 +29,17 @@ export class EmittersController {
   logout(@GetCurrentUserId() emitterId: string): Promise<boolean> {
     return this.emittersService.unregister(emitterId);
   }
+
+  @Get('active-trip')
+  @HttpCode(HttpStatus.OK)
+  async getActiveTrip(
+    @GetCurrentUserId() emitterId: string,
+  ): Promise<GetActiveTripDto> {
+    const activeTrip = await this.emittersService.getActiveTrip(emitterId);
+    const { id: tripId, startTime } = activeTrip || {};
+    return {
+      tripId,
+      startTime,
+    };
+  }
 }

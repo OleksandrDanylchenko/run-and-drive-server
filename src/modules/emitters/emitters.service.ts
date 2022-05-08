@@ -1,6 +1,7 @@
 import {
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -19,6 +20,8 @@ import { TripsRepository } from '@trips/entities/trip.repository';
 
 @Injectable()
 export class EmittersService {
+  private logger = new Logger('EmittersService');
+
   constructor(
     @InjectRepository(EmittersRepository)
     private emittersRepository: EmittersRepository,
@@ -40,22 +43,32 @@ export class EmittersService {
       relations: { user: true },
     });
     if (!engineer) {
+      this.logger.error(`Engineer not found for login: ${activationLogin}`);
       throw new ForbiddenException('Access Denied');
     }
     const passwordMatches = await argon.verify(
       engineer.user.password,
       dto.password,
     );
-    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+    if (!passwordMatches) {
+      this.logger.error(
+        `Passwords not match for the engineer: ${activationLogin}`,
+      );
+      throw new ForbiddenException('Access Denied');
+    }
 
     const car = await this.carsRepository.findOne({
       where: {
         activationCode: carActivationCode,
-        emitter: IsNull(),
       },
-      loadRelationIds: true,
+      relations: {
+        emitter: true,
+      },
     });
-    if (!car) {
+    if (!car || car.emitter) {
+      this.logger.error(
+        `No car found by code: ${carActivationCode}. Or the car is already connected to the emitter`,
+      );
       throw new ForbiddenException('Access Denied');
     }
 
