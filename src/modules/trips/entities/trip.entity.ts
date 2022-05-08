@@ -45,10 +45,10 @@ export class Trip {
     srid: 4326,
     nullable: true,
   })
-  endLocation: Point;
+  endLocation?: Point;
 
-  @CreateDateColumn({ name: 'end_time', nullable: true })
-  endTime: Date;
+  @Column({ name: 'end_time', type: 'timestamp', nullable: true })
+  endTime?: Date;
 
   // Stored in meters
   @Column({ name: 'total_distance', default: 0 })

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class TripTable1652004570944 implements MigrationInterface {
-  name = 'TripTable1652004570944';
+export class TripTable1652005382217 implements MigrationInterface {
+  name = 'TripTable1652005382217';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
@@ -10,7 +10,7 @@ export class TripTable1652004570944 implements MigrationInterface {
                 "start_location" geography(Point, 4326) NOT NULL,
                 "start_time" TIMESTAMP NOT NULL DEFAULT now(),
                 "end_location" geography(Point, 4326),
-                "end_time" TIMESTAMP DEFAULT now(),
+                "end_time" TIMESTAMP,
                 "total_distance" integer NOT NULL DEFAULT '0',
                 "car_id" uuid,
                 "user_id" uuid,
