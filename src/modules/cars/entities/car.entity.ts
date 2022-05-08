@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -23,6 +24,7 @@ export class Car {
   @Exclude({ toPlainOnly: true })
   emitter?: Emitter;
 
+  @Index({ unique: true, where: 'cars.deleted_at IS NULL' })
   @Column({ length: 17 })
   vin: string;
 
