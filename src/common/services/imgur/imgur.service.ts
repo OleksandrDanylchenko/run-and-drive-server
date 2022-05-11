@@ -47,12 +47,15 @@ export class ImgurService {
 
   private async uploadPhotoFile(
     photo: Express.Multer.File,
+    albumIds?: ImgurEntityIds,
   ): Promise<ImgurEntityIds> {
     const { originalname, buffer } = photo;
     const imagePayload: ImagePayload = {
       title: originalname,
       image: buffer,
+      album: albumIds?.deletehash,
     };
+
     const { success, data } = await this.imgurClient.upload(imagePayload);
     if (!success) {
       throw new InternalServerErrorException(
@@ -85,7 +88,9 @@ export class ImgurService {
       await this.deleteExistingAlbumPhotos(existingAlbumHash);
     }
     const albumIds = await this.createNewAlbum(albumTitle);
-    await Promise.all(photos.map((photo) => this.uploadPhotoFile(photo)));
+    await Promise.all(
+      photos.map((photo) => this.uploadPhotoFile(photo, albumIds)),
+    );
     return albumIds;
   }
 
@@ -103,9 +108,7 @@ export class ImgurService {
   }
 
   private async createNewAlbum(title: string): Promise<ImgurEntityIds> {
-    const { success, data } = await this.imgurClient.createAlbum(
-      `${title}_photos`,
-    );
+    const { success, data } = await this.imgurClient.createAlbum(title);
     if (!success) {
       throw new InternalServerErrorException(
         `Cannot create an album with title ${title}`,
