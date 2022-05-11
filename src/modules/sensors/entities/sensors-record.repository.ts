@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 
 import { Car } from '@cars/entities/car.entity';
 import { CustomRepository } from '@database/typeorm-ex.decorator';
@@ -26,5 +26,37 @@ export class SensorsRepository extends Repository<SensorsRecord> {
       timestamp,
     });
     return this.save(sensorsRecord);
+  }
+
+  async replaceRecord(
+    dto: CreateSensorsRecordDto,
+    car: Car,
+  ): Promise<SensorsRecord> {
+    const { location, fuelTankOccupancy, wheelsPressure, timestamp } = dto;
+
+    debugger;
+
+    // First emitter record
+    const existingRecord = await this.findOne({
+      where: {
+        car: {
+          id: car.id,
+        },
+        trip: IsNull(),
+      },
+      loadRelationIds: true,
+    });
+    if (!existingRecord) {
+      return this.createRecord(dto, car);
+    }
+    if (existingRecord.timestamp >= timestamp) {
+      return existingRecord;
+    }
+
+    existingRecord.location = getPointFromLiteral(location);
+    existingRecord.fuelTankOccupancy = fuelTankOccupancy;
+    existingRecord.wheelsPressure = wheelsPressure;
+    existingRecord.timestamp = timestamp;
+    return this.save(existingRecord);
   }
 }
