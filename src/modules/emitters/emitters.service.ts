@@ -67,10 +67,8 @@ export class EmittersService {
         emitter: true,
       },
     });
-    if (!car || car.emitter) {
-      this.logger.error(
-        `No car found by code: ${carActivationCode}. Or the car is already connected to the emitter`,
-      );
+    if (!car) {
+      this.logger.error(`No car found by code: ${carActivationCode}`);
       throw new ForbiddenException('Access Denied');
     }
 
