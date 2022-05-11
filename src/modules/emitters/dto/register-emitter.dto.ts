@@ -15,3 +15,11 @@ export class RegisterEmitterDto {
   @IsString()
   password: string;
 }
+
+export class RegisterEmitterResponseDto {
+  accessToken: string;
+  emitterId: string;
+  engineerId: string;
+  carId: string;
+  activatedAt: Date;
+}
