@@ -1,4 +1,7 @@
-import { InternalServerErrorException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { nanoid } from 'nanoid';
 import { PostgresError } from 'pg-error-enum';
 import { Repository } from 'typeorm';
@@ -9,6 +12,17 @@ import { Engineer } from '@engineers/entities/engineer.entity';
 
 @CustomRepository(Engineer)
 export class EngineersRepository extends Repository<Engineer> {
+  async getEngineer(engineerId: string) {
+    const engineer = await this.findOne({
+      where: { id: engineerId },
+      loadRelationIds: true,
+    });
+    if (!engineer) {
+      throw new NotFoundException(`Engineer ${engineerId} cannot be found!`);
+    }
+    return engineer;
+  }
+
   async createEngineer(user: User): Promise<Engineer> {
     const engineer = this.create({
       user,

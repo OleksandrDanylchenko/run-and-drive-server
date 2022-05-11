@@ -1,6 +1,16 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 
 import { AuthSignupDto } from '@auth/dto';
+import { GetEngineerDto } from '@engineers/dto/get-engineer.dto';
 
 import { CreateEngineerResponseDto } from './dto/create-engineer-response.dto';
 import { EngineersService } from './engineers.service';
@@ -8,6 +18,14 @@ import { EngineersService } from './engineers.service';
 @Controller('engineers')
 export class EngineersController {
   constructor(private engineersService: EngineersService) {}
+
+  @Get(':id')
+  @HttpCode(HttpStatus.CREATED)
+  getEngineer(
+    @Param('id', ParseUUIDPipe) engineerId: string,
+  ): Promise<GetEngineerDto> {
+    return this.engineersService.findOne(engineerId);
+  }
 
   @Post('create')
   @HttpCode(HttpStatus.CREATED)

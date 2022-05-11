@@ -40,10 +40,8 @@ export class EmittersController {
     @GetCurrentUserId() emitterId: string,
   ): Promise<GetActiveTripDto> {
     const activeTrip = await this.emittersService.getActiveTrip(emitterId);
-    const { id: tripId, startTime } = activeTrip || {};
     return {
-      tripId,
-      startTime,
+      trip: activeTrip,
     };
   }
 }

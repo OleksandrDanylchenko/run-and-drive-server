@@ -35,7 +35,9 @@ export class UsersService {
       ...dtoUserProps
     } = user;
 
-    const photoUrl = await this.imgurService.getPhotoUrl(photo.id);
+    const photoUrl = photo?.id
+      ? await this.imgurService.getPhotoUrl(photo.id)
+      : undefined;
     return {
       ...dtoUserProps,
       photoUrl,

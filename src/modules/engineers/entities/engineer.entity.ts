@@ -6,6 +6,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 
 import { Emitter } from '@/modules/emitters/entities/emitter.entity';
@@ -26,6 +27,9 @@ export class Engineer {
   @OneToOne(() => User, (user) => user.engineer, { onDelete: 'CASCADE' })
   @JoinColumn([{ name: 'user_id' }])
   user: User;
+
+  @RelationId((engineer: Engineer) => engineer.user, 'user_id')
+  user_id: string;
 
   @OneToMany(() => Emitter, (emitter) => emitter.engineer)
   emitters: Emitter[];
