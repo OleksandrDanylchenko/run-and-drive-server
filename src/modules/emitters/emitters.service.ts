@@ -8,11 +8,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon from 'argon2';
-import { IsNull } from 'typeorm';
 
 import { AtToken } from '@auth/types';
 import { CarsRepository } from '@cars/entities/car.repository';
-import { RegisterEmitterDto } from '@emitters/dto/register-emitter.dto';
+import {
+  RegisterEmitterDto,
+  RegisterEmitterResponseDto,
+} from '@emitters/dto/register-emitter.dto';
 import { EmittersRepository } from '@emitters/entities/emitter.repository';
 import { EngineersRepository } from '@engineers/entities/engineer.repository';
 import { Trip } from '@trips/entities/trip.entity';
@@ -35,7 +37,7 @@ export class EmittersService {
     private config: ConfigService,
   ) {}
 
-  async register(dto: RegisterEmitterDto): Promise<AtToken> {
+  async register(dto: RegisterEmitterDto): Promise<RegisterEmitterResponseDto> {
     const { activationLogin, carActivationCode } = dto;
 
     const engineer = await this.engineersRepository.findOne({
@@ -65,21 +67,25 @@ export class EmittersService {
         emitter: true,
       },
     });
-    if (!car || car.emitter) {
-      this.logger.error(
-        `No car found by code: ${carActivationCode}. Or the car is already connected to the emitter`,
-      );
+    if (!car) {
+      this.logger.error(`No car found by code: ${carActivationCode}`);
       throw new ForbiddenException('Access Denied');
     }
 
-    const { id } = await this.emittersRepository.registerEmitter(
+    const { id, activatedAt } = await this.emittersRepository.registerEmitter(
       dto,
       engineer,
       car,
     );
 
     const { accessToken } = await this.getToken(id, activationLogin);
-    return { accessToken };
+    return {
+      accessToken,
+      emitterId: id,
+      carId: car.id,
+      engineerId: engineer.id,
+      activatedAt,
+    };
   }
 
   async unregister(emitterId: string): Promise<boolean> {

@@ -2,6 +2,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToOne,
@@ -25,6 +26,7 @@ export class Emitter {
 
   @OneToOne(() => Car, (car) => car.emitter, { onDelete: 'CASCADE' })
   @JoinColumn([{ name: 'car_id' }])
+  @Index({ unique: true, where: 'emitters.deactivated_at IS NULL' })
   car: Car;
 
   @CreateDateColumn({ name: 'activated_at' })

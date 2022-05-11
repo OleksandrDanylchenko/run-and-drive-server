@@ -7,10 +7,12 @@ import {
   Post,
 } from '@nestjs/common';
 
-import { AtToken } from '@auth/types';
 import { GetCurrentUserId, Public } from '@common/decorators';
 import { GetActiveTripDto } from '@emitters/dto/get-active-trip.dto';
-import { RegisterEmitterDto } from '@emitters/dto/register-emitter.dto';
+import {
+  RegisterEmitterDto,
+  RegisterEmitterResponseDto,
+} from '@emitters/dto/register-emitter.dto';
 import { EmittersService } from '@emitters/emitters.service';
 
 @Controller('emitters')
@@ -20,7 +22,9 @@ export class EmittersController {
   @Public()
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  signupLocal(@Body() dto: RegisterEmitterDto): Promise<AtToken> {
+  signupLocal(
+    @Body() dto: RegisterEmitterDto,
+  ): Promise<RegisterEmitterResponseDto> {
     return this.emittersService.register(dto);
   }
 

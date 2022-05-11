@@ -1,4 +1,9 @@
-import { NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { PostgresError } from 'pg-error-enum';
 import { FindOneOptions, Repository } from 'typeorm';
 
 import { Car } from '@cars/entities/car.entity';
@@ -30,7 +35,15 @@ export class EmittersRepository extends Repository<Emitter> {
     car: Car,
   ): Promise<Emitter> {
     const emitter = this.create({ engineer, car });
-    return this.save(emitter);
+    try {
+      return await this.save(emitter);
+    } catch (error) {
+      if (error.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new ConflictException('Car already has emitter assigned');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async deleteEmitter(emitterId: string): Promise<boolean> {
