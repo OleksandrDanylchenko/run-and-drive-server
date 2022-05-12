@@ -58,6 +58,14 @@ export class Car {
   @Column({ name: 'fuel_capacity' })
   fuelCapacity: number;
 
+  @Column({
+    name: 'average_consumption',
+    type: 'decimal',
+    precision: 2,
+    scale: 1,
+  })
+  averageConsumption: number;
+
   @OneToMany(() => Trip, (trip) => trip.car)
   trips: Trip[];
 
