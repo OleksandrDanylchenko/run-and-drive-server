@@ -40,8 +40,10 @@ export class TripsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(carId: string): Promise<GetTripDto> {
-    return this.tripsService.findOne(carId);
+  async findOne(
+    @Param('id', ParseUUIDPipe) tripId: string,
+  ): Promise<GetTripDto> {
+    return this.tripsService.findOne(tripId);
   }
 
   @Put(':id')

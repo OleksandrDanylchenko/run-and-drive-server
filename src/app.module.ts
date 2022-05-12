@@ -13,6 +13,7 @@ import pgDataSource from '@config/pg-data-source.config';
 import { EmittersModule } from '@emitters/emitters.module';
 import { EngineersModule } from '@engineers/engineers.module';
 import { SensorsModule } from '@sensors/sensors.module';
+import { TestTripsModule } from '@test-trips/test-trips.module';
 import { TripsModule } from '@trips/trips.module';
 
 import { AppController } from './app.controller';
@@ -31,6 +32,7 @@ import { AppService } from './app.service';
     EmittersModule,
     CarsModule,
     TripsModule,
+    TestTripsModule,
     SensorsModule,
   ],
   controllers: [AppController],

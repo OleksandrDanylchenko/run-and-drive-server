@@ -25,6 +25,7 @@
       "@emitters/*": ["src/modules/emitters/*"],
       "@cars/*": ["src/modules/cars/*"],
       "@trips/*": ["src/modules/trips/*"],
+      "@test-trips/*": ["src/modules/test-trips/*"],
       "@sensors/*": ["src/modules/sensors/*"]
     }
   }
