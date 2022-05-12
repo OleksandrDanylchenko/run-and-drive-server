@@ -11,6 +11,7 @@ import * as argon from 'argon2';
 
 import { AtToken } from '@auth/types';
 import { CarsRepository } from '@cars/entities/car.repository';
+import { DeactivateEmitterDto } from '@emitters/dto/deactivate-emitter.dto';
 import {
   RegisterEmitterDto,
   RegisterEmitterResponseDto,
@@ -88,7 +89,25 @@ export class EmittersService {
     };
   }
 
-  async unregister(emitterId: string): Promise<boolean> {
+  async deactivate(
+    emitterId: string,
+    dto: DeactivateEmitterDto,
+  ): Promise<boolean> {
+    const emitter = await this.emittersRepository.getEmitter(emitterId, {
+      engineer: true,
+    });
+    const engineer = await this.engineersRepository.findOne({
+      where: { id: emitter.engineer.id },
+      relations: { user: true },
+    });
+    const passwordMatches = await argon.verify(
+      engineer.user.password,
+      dto.password,
+    );
+    if (!passwordMatches) {
+      this.logger.error(`Passwords not match for the engineer to deactivate!`);
+      throw new ForbiddenException('Access Denied');
+    }
     return this.emittersRepository.deleteEmitter(emitterId);
   }
 
@@ -105,9 +124,6 @@ export class EmittersService {
     const emitter = await this.emittersRepository.getEmitter(emitterId, {
       car: true,
     });
-    if (!emitter) {
-      throw new NotFoundException(`Emitter ${emitterId} cannot be found!`);
-    }
     return this.tripsRepository.getActiveTripForCar(emitter.car.id);
   }
 }

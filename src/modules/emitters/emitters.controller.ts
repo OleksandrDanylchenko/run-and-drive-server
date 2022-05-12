@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 
 import { GetCurrentUserId, Public } from '@common/decorators';
+import { DeactivateEmitterDto } from '@emitters/dto/deactivate-emitter.dto';
 import { GetActiveTripDto } from '@emitters/dto/get-active-trip.dto';
 import {
   RegisterEmitterDto,
@@ -28,10 +29,13 @@ export class EmittersController {
     return this.emittersService.register(dto);
   }
 
-  @Post('unregister')
+  @Post('deactivate')
   @HttpCode(HttpStatus.OK)
-  logout(@GetCurrentUserId() emitterId: string): Promise<boolean> {
-    return this.emittersService.unregister(emitterId);
+  logout(
+    @GetCurrentUserId() emitterId: string,
+    @Body() dto: DeactivateEmitterDto,
+  ): Promise<boolean> {
+    return this.emittersService.deactivate(emitterId, dto);
   }
 
   @Get('active-trip')

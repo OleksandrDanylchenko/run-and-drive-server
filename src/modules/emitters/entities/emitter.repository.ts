@@ -17,7 +17,7 @@ import { Trip } from '@trips/entities/trip.entity';
 export class EmittersRepository extends Repository<Emitter> {
   async getEmitter(
     emitterId: string,
-    relations?: FindOneOptions<Trip>['relations'],
+    relations?: FindOneOptions<Emitter>['relations'],
   ) {
     const trip = await this.findOne({
       where: { id: emitterId },
