@@ -18,12 +18,20 @@ import { SensorsService } from '@sensors/sensors.service';
 export class SensorsController {
   constructor(private sensorsService: SensorsService) {}
 
-  @Get('/trip/:id')
+  @Get('/trip/:id/last')
   @HttpCode(HttpStatus.OK)
   async findLastByTrip(
     @Param('id', ParseUUIDPipe) tripId: string,
   ): Promise<GetSensorsRecordDto | undefined> {
     return this.sensorsService.findLastByTrip(tripId);
+  }
+
+  @Get('/trip/:id')
+  @HttpCode(HttpStatus.OK)
+  async findAllByTrip(
+    @Param('id', ParseUUIDPipe) tripId: string,
+  ): Promise<GetSensorsRecordDto[] | undefined> {
+    return this.sensorsService.findAllByTrip(tripId);
   }
 
   @Post('record')

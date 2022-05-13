@@ -44,6 +44,21 @@ export class SensorsService {
     return this.createRecordDto(sensorsRecord);
   }
 
+  async findAllByTrip(tripId: string): Promise<GetSensorsRecordDto[]> {
+    const sensorsRecords = await this.sensorsRepository.find({
+      where: {
+        trip: {
+          id: tripId,
+        },
+      },
+      order: {
+        timestamp: 'ASC',
+      },
+      loadRelationIds: true,
+    });
+    return sensorsRecords.map(this.createRecordDto);
+  }
+
   async createRecord(dto: CreateSensorsRecordDto): Promise<SensorsRecord> {
     const { carId } = dto;
     const car = await this.carsService.get(carId);
