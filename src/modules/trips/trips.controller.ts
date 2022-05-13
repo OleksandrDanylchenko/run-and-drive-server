@@ -46,16 +46,6 @@ export class TripsController {
     return this.tripsService.findOne(tripId);
   }
 
-  @Put(':id')
-  @HttpCode(HttpStatus.OK)
-  async updateStage(
-    @Param('id', ParseUUIDPipe) tripId: string,
-    @Body() dto: UpdateTripStageDto,
-  ): Promise<ChangeResponseDto> {
-    const { id } = await this.tripsService.updateStage(tripId, dto);
-    return { id };
-  }
-
   @Patch(':id/end')
   @HttpCode(HttpStatus.CREATED)
   async endTrip(

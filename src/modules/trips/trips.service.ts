@@ -92,19 +92,6 @@ export class TripsService {
     };
   }
 
-  async updateStage(tripId: string, dto: UpdateTripStageDto): Promise<Trip> {
-    const trip = await this.get(tripId);
-
-    if (dto.stage === TripStages.END && !trip.endTime) {
-      throw new BadRequestException(
-        `The trip ${tripId} hasn't been finished yet to update the "end" stage`,
-      );
-    }
-
-    await this.tripsRepository.updateTripStage(tripId, dto);
-    return this.get(tripId);
-  }
-
   async endTrip(tripId: string, dto: EndTripDto): Promise<Trip> {
     await this.tripsRepository.endTrip(tripId, dto);
     return this.get(tripId);

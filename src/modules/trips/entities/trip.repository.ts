@@ -47,27 +47,6 @@ export class TripsRepository extends Repository<Trip> {
     return this.save(trip);
   }
 
-  async updateTripStage(tripId: string, dto: UpdateTripStageDto) {
-    const { stage, location, time } = dto;
-    const locationPoint = location ? getPointFromLiteral(location) : undefined;
-
-    if (!location && !time) return;
-    switch (stage) {
-      case 'START': {
-        return this.update(
-          { id: tripId },
-          { startLocation: locationPoint, startTime: time },
-        );
-      }
-      case 'END': {
-        return this.update(
-          { id: tripId },
-          { endLocation: locationPoint, endTime: time },
-        );
-      }
-    }
-  }
-
   async endTrip(tripId: string, dto: EndTripDto) {
     const locationPoint = getPointFromLiteral(dto.location);
     return this.update(
