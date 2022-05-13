@@ -1,4 +1,4 @@
-import { IsNull, Repository } from 'typeorm';
+import { IsNull, LessThan, Repository } from 'typeorm';
 
 import { Car } from '@cars/entities/car.entity';
 import { CustomRepository } from '@database/typeorm-ex.decorator';
@@ -9,6 +9,24 @@ import { getPointFromLiteral } from '@utils/geo-jsob.helper';
 
 @CustomRepository(SensorsRecord)
 export class SensorsRepository extends Repository<SensorsRecord> {
+  async getPreviousTripRecord(
+    timestamp: Date,
+    tripId: string,
+  ): Promise<SensorsRecord | undefined> {
+    return this.findOne({
+      where: {
+        trip: {
+          id: tripId,
+        },
+        timestamp: LessThan(timestamp),
+      },
+      order: {
+        timestamp: 'DESC',
+      },
+      loadRelationIds: true,
+    });
+  }
+
   async createRecord(
     dto: CreateSensorsRecordDto,
     car: Car,
