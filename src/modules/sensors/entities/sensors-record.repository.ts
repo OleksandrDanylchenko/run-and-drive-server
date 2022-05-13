@@ -39,7 +39,7 @@ export class SensorsRepository extends Repository<SensorsRecord> {
       car,
       trip,
       location: locationPoint,
-      fuelTankOccupancy,
+      fuelTankOccupancy: Math.trunc(fuelTankOccupancy),
       wheelsPressure,
       timestamp,
     });
@@ -72,7 +72,7 @@ export class SensorsRepository extends Repository<SensorsRecord> {
     }
 
     existingRecord.location = getPointFromLiteral(location);
-    existingRecord.fuelTankOccupancy = fuelTankOccupancy;
+    existingRecord.fuelTankOccupancy = Math.trunc(fuelTankOccupancy);
     existingRecord.wheelsPressure = wheelsPressure;
     existingRecord.timestamp = timestamp;
     return this.save(existingRecord);

@@ -41,7 +41,6 @@ export class CreateSensorsRecordDto {
 
   @IsNotEmpty()
   @Type(() => Number)
-  @IsInt()
   fuelTankOccupancy: number;
 
   @IsOptional()

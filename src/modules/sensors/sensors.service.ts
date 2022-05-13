@@ -77,7 +77,7 @@ export class SensorsService {
         id: tripId,
       },
       {
-        totalDistance: newTotalDistance,
+        totalDistance: Math.trunc(newTotalDistance),
       },
     );
     return newRecord;
