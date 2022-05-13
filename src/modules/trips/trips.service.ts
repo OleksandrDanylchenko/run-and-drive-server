@@ -62,6 +62,7 @@ export class TripsService {
       startTime,
       endLocation: endLocationPoint,
       endTime,
+      totalDistance,
     } = trip;
 
     const { id: carId, brand, model, color } = car;
@@ -91,6 +92,7 @@ export class TripsService {
             time: endTime,
           }
         : undefined,
+      totalDistance,
     };
   }
 

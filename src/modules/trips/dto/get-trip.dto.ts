@@ -11,6 +11,7 @@ export class GetTripDto {
     location: google.maps.LatLngLiteral;
     time: Date;
   };
+  totalDistance: number;
   user: TripUserDto;
   car: TripCarDto;
 }

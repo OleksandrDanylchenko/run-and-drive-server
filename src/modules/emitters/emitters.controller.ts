@@ -9,12 +9,12 @@ import {
 
 import { GetCurrentUserId, Public } from '@common/decorators';
 import { DeactivateEmitterDto } from '@emitters/dto/deactivate-emitter.dto';
-import { GetActiveTripDto } from '@emitters/dto/get-active-trip.dto';
 import {
   RegisterEmitterDto,
   RegisterEmitterResponseDto,
 } from '@emitters/dto/register-emitter.dto';
 import { EmittersService } from '@emitters/emitters.service';
+import { GetTripDto } from '@trips/dto/get-trip.dto';
 
 @Controller('emitters')
 export class EmittersController {
@@ -42,10 +42,7 @@ export class EmittersController {
   @HttpCode(HttpStatus.OK)
   async getActiveTrip(
     @GetCurrentUserId() emitterId: string,
-  ): Promise<GetActiveTripDto> {
-    const activeTrip = await this.emittersService.getActiveTrip(emitterId);
-    return {
-      trip: activeTrip,
-    };
+  ): Promise<GetTripDto> {
+    return this.emittersService.getActiveTrip(emitterId);
   }
 }

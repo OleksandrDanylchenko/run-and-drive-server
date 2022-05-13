@@ -16,5 +16,6 @@ import { TripsService } from '@trips/trips.service';
   ],
   controllers: [TripsController],
   providers: [TripsService],
+  exports: [TripsService],
 })
 export class TripsModule {}

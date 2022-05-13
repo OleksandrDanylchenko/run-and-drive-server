@@ -18,8 +18,9 @@ import {
 } from '@emitters/dto/register-emitter.dto';
 import { EmittersRepository } from '@emitters/entities/emitter.repository';
 import { EngineersRepository } from '@engineers/entities/engineer.repository';
-import { Trip } from '@trips/entities/trip.entity';
+import { GetTripDto } from '@trips/dto/get-trip.dto';
 import { TripsRepository } from '@trips/entities/trip.repository';
+import { TripsService } from '@trips/trips.service';
 
 @Injectable()
 export class EmittersService {
@@ -36,6 +37,7 @@ export class EmittersService {
     private carsRepository: CarsRepository,
     private jwtService: JwtService,
     private config: ConfigService,
+    private tripsService: TripsService,
   ) {}
 
   async register(dto: RegisterEmitterDto): Promise<RegisterEmitterResponseDto> {
@@ -120,10 +122,13 @@ export class EmittersService {
     return { accessToken };
   }
 
-  async getActiveTrip(emitterId: string): Promise<Trip | undefined> {
+  async getActiveTrip(emitterId: string): Promise<GetTripDto | undefined> {
     const emitter = await this.emittersRepository.getEmitter(emitterId, {
       car: true,
     });
-    return this.tripsRepository.getActiveTripForCar(emitter.car.id);
+    const trip = await this.tripsRepository.getActiveTripForCar(emitter.car.id);
+    if (!trip) return;
+
+    return this.tripsService.createTripDto(trip);
   }
 }

@@ -10,11 +10,13 @@ import { EmittersService } from '@emitters/emitters.service';
 import { EmittersRepository } from '@emitters/entities/emitter.repository';
 import { EngineersRepository } from '@engineers/entities/engineer.repository';
 import { TripsRepository } from '@trips/entities/trip.repository';
+import { TripsModule } from '@trips/trips.module';
 
 @Module({
   imports: [
     AuthModule,
     ConfigModule,
+    TripsModule,
     JwtModule.register({}),
     TypeOrmExModule.forCustomRepository([
       EmittersRepository,
