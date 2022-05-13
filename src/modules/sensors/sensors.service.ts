@@ -12,7 +12,6 @@ import { SensorsRecord } from '@sensors/entities/sensors-record.entity';
 import { SensorsRepository } from '@sensors/entities/sensors-record.repository';
 import { Trip } from '@trips/entities/trip.entity';
 import { TripsRepository } from '@trips/entities/trip.repository';
-import { TripsService } from '@trips/trips.service';
 import { getLiteralFromPoint } from '@utils/geo-jsob.helper';
 
 @Injectable()
@@ -23,7 +22,6 @@ export class SensorsService {
     @InjectRepository(TripsRepository)
     private tripsRepository: TripsRepository,
     private carsService: CarsService,
-    private tripsService: TripsService,
   ) {}
 
   async createRecord(dto: CreateSensorsRecordDto): Promise<SensorsRecord> {

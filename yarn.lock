@@ -6141,10 +6141,10 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.npmjs.org/spdx-license-ids/-/spdx-license-ids-3.0.11.tgz"
   integrity sha512-Ctl2BrFiM0X3MANYgj3CkygxhRmr9mi6xhejbdO960nF6EDJApTYpn0BQnDKlnNBULKiCN1n3w9EBkHK8ZWg+g==
 
-spherical-geometry-js@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/spherical-geometry-js/-/spherical-geometry-js-3.0.0.tgz#b05e37205f6e64f97bec90b807768a161faea53f"
-  integrity sha512-PvfGTBRSyoAr3KGk/pTkqA7vCMO0lXilnmh6DfiTrO4RhRz++RTbMbUXKcmkmw8olh2wWVVY2qx8sl5hJ+JpVg==
+spherical-geometry-js@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/spherical-geometry-js/-/spherical-geometry-js-2.1.0.tgz#f9a6e550dfa4f24087fee6669cbc27edf612a5b4"
+  integrity sha512-osIQKPLKIqvxm47yCZ8DyNitnRLWUYEpS1zRLCOYuP8RSVa0yeclIyM8iBDTP5EyLQ9wtHGpq/l6Ppteun3vbA==
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
