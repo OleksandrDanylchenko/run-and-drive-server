@@ -1,5 +1,7 @@
 export interface GetSensorsRecordDto {
+  id: string;
   carId: string;
+  tripId?: string;
   fuelTankOccupancy: number;
   location: google.maps.LatLngLiteral;
   wheelsPressure?: {

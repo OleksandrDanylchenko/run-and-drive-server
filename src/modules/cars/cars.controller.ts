@@ -34,7 +34,7 @@ export class CarsController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   findOne(@Param('id', ParseUUIDPipe) carId: string): Promise<GetCarDto> {
     return this.carsService.findOne(carId);
   }

@@ -18,8 +18,6 @@ export class TestTripsService {
   }
 
   async findAll(): Promise<GetTestTripSummaryDto[]> {
-    debugger;
-
     const fixturesFilenames = await readdir(this.fixturesPath);
     const fixturesFiles = await Promise.all(
       fixturesFilenames.map((filename) =>

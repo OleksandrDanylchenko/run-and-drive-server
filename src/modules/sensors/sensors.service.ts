@@ -8,6 +8,7 @@ import { LessThanOrEqual } from 'typeorm';
 import { CarsService } from '@cars/cars.service';
 import { Car } from '@cars/entities/car.entity';
 import { CreateSensorsRecordDto } from '@sensors/dto/create-record.dto';
+import { GetSensorsRecordDto } from '@sensors/dto/get-sensors-record.dto';
 import { SensorsRecord } from '@sensors/entities/sensors-record.entity';
 import { SensorsRepository } from '@sensors/entities/sensors-record.repository';
 import { Trip } from '@trips/entities/trip.entity';
@@ -24,6 +25,25 @@ export class SensorsService {
     private carsService: CarsService,
   ) {}
 
+  async findLastByTrip(
+    tripId: string,
+  ): Promise<GetSensorsRecordDto | undefined> {
+    const sensorsRecord = await this.sensorsRepository.findOne({
+      where: {
+        trip: {
+          id: tripId,
+        },
+      },
+      order: {
+        timestamp: 'DESC',
+      },
+      loadRelationIds: true,
+    });
+    if (!sensorsRecord) return;
+
+    return this.createRecordDto(sensorsRecord);
+  }
+
   async createRecord(dto: CreateSensorsRecordDto): Promise<SensorsRecord> {
     const { carId } = dto;
     const car = await this.carsService.get(carId);
@@ -35,6 +55,31 @@ export class SensorsService {
     return activeTrip
       ? this.createTripRecord(dto, car, activeTrip)
       : this.sensorsRepository.replaceRecord(dto, car);
+  }
+
+  createRecordDto(record: SensorsRecord): GetSensorsRecordDto {
+    const {
+      id,
+      car_id: carId,
+      trip_id: tripId,
+      location: locationPoint,
+      fuelTankOccupancy,
+      wheelsPressure,
+      timestamp: timestampDate,
+    } = record;
+
+    const location = getLiteralFromPoint(locationPoint);
+    const timestamp = timestampDate.toISOString();
+
+    return {
+      id,
+      carId,
+      tripId,
+      fuelTankOccupancy,
+      wheelsPressure,
+      location,
+      timestamp,
+    };
   }
 
   async createTripRecord(
