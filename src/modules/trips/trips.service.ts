@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Point } from 'geojson';
 
 import { UsersService } from '@auth/users.service';
 import { CarsService } from '@cars/cars.service';
+import { SensorsRepository } from '@sensors/entities/sensors-record.repository';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
-import { EndTripDto } from '@trips/dto/end-trip.dto';
 import { FindAllFilterDto } from '@trips/dto/find-all-filter.dto';
 import { GetTripDto } from '@trips/dto/get-trip.dto';
-import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
-import { Trip, TripStages } from '@trips/entities/trip.entity';
+import { Trip } from '@trips/entities/trip.entity';
 import { TripsRepository } from '@trips/entities/trip.repository';
 import { getLiteralFromPoint } from '@utils/geo-jsob.helper';
 
@@ -17,6 +17,8 @@ export class TripsService {
   constructor(
     @InjectRepository(TripsRepository)
     private tripsRepository: TripsRepository,
+    @InjectRepository(SensorsRepository)
+    private sensorsRepository: SensorsRepository,
     private carsService: CarsService,
     private usersService: UsersService,
   ) {}
@@ -92,8 +94,30 @@ export class TripsService {
     };
   }
 
-  async endTrip(tripId: string, dto: EndTripDto): Promise<Trip> {
-    await this.tripsRepository.endTrip(tripId, dto);
+  async endTrip(tripId: string): Promise<Trip> {
+    const trip = await this.get(tripId);
+    const lastRecord = await this.sensorsRepository.findOne({
+      where: {
+        trip: {
+          id: tripId,
+        },
+      },
+      order: {
+        timestamp: 'DESC',
+      },
+      loadRelationIds: true,
+    });
+
+    const endOptions: { endLocation: Point; endTime: Date } = lastRecord
+      ? {
+          endLocation: lastRecord.location,
+          endTime: lastRecord.timestamp,
+        }
+      : {
+          endLocation: trip.startLocation,
+          endTime: trip.startTime,
+        };
+    await this.tripsRepository.endTrip(tripId, endOptions);
     return this.get(tripId);
   }
 

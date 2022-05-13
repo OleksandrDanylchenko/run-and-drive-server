@@ -1,13 +1,12 @@
 import { NotFoundException } from '@nestjs/common';
+import { Point } from 'geojson';
 import { FindOneOptions, IsNull, Not, Repository } from 'typeorm';
 
 import { User } from '@auth/entities/user.entity';
 import { Car } from '@cars/entities/car.entity';
 import { CustomRepository } from '@database/typeorm-ex.decorator';
 import { CreateTripDto } from '@trips/dto/create-trip.dto';
-import { EndTripDto } from '@trips/dto/end-trip.dto';
 import { FindAllFilterDto, TripState } from '@trips/dto/find-all-filter.dto';
-import { UpdateTripStageDto } from '@trips/dto/update-trip-stage.dto';
 import { Trip } from '@trips/entities/trip.entity';
 import { getPointFromLiteral } from '@utils/geo-jsob.helper';
 
@@ -47,12 +46,11 @@ export class TripsRepository extends Repository<Trip> {
     return this.save(trip);
   }
 
-  async endTrip(tripId: string, dto: EndTripDto) {
-    const locationPoint = getPointFromLiteral(dto.location);
-    return this.update(
-      { id: tripId },
-      { endLocation: locationPoint, endTime: new Date() },
-    );
+  async endTrip(
+    tripId: string,
+    endOptions: { endLocation: Point; endTime: Date },
+  ) {
+    return this.update({ id: tripId }, endOptions);
   }
 
   async removeTrip(tripId: string): Promise<boolean> {
