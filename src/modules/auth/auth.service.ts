@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as argon from 'argon2';
 
 import { AuthSigninDto, AuthSignupDto } from '@auth/dto';
+import { AuthResponseDto } from '@auth/dto/auth-response.dto';
 import { JwtPayload, Tokens } from '@auth/types';
 
 import { UsersRepository } from './entities/user.repository';
@@ -18,24 +19,32 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async signupLocal(dto: AuthSignupDto): Promise<Tokens> {
-    const { id, email } = await this.usersRepository.createUser(dto);
-    const tokens = await this.getTokens(id, email);
-    await this.updateRtHash(id, tokens.refreshToken);
-    return tokens;
+  async signupLocal(dto: AuthSignupDto): Promise<AuthResponseDto> {
+    const { id: userId, email } = await this.usersRepository.createUser(dto);
+    const tokens = await this.getTokens(userId, email);
+    await this.updateRtHash(userId, tokens.refreshToken);
+    return {
+      ...tokens,
+      userId,
+    };
   }
 
-  async signinLocal(dto: AuthSigninDto): Promise<Tokens> {
+  async signinLocal(dto: AuthSigninDto): Promise<AuthResponseDto> {
     const user = await this.usersRepository.findOneBy({ email: dto.email });
     if (!user) throw new ForbiddenException('Access Denied');
 
-    const passwordMatches = await argon.verify(user.password, dto.password);
+    const { id: userId, email, password } = user;
+
+    const passwordMatches = await argon.verify(password, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refreshToken);
+    const tokens = await this.getTokens(userId, email);
+    await this.updateRtHash(userId, tokens.refreshToken);
 
-    return tokens;
+    return {
+      ...tokens,
+      userId,
+    };
   }
 
   async logout(userId: number): Promise<boolean> {

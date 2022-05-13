@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 
 import { AuthSigninDto, AuthSignupDto } from '@auth/dto';
+import { AuthResponseDto } from '@auth/dto/auth-response.dto';
 import {
   GetCurrentUserData,
   GetCurrentUserId,
@@ -25,14 +26,14 @@ export class AuthController {
   @Public()
   @Post('local/signup')
   @HttpCode(HttpStatus.CREATED)
-  signupLocal(@Body() dto: AuthSignupDto): Promise<Tokens> {
+  signupLocal(@Body() dto: AuthSignupDto): Promise<AuthResponseDto> {
     return this.authService.signupLocal(dto);
   }
 
   @Public()
   @Post('local/signin')
   @HttpCode(HttpStatus.OK)
-  signinLocal(@Body() dto: AuthSigninDto): Promise<Tokens> {
+  signinLocal(@Body() dto: AuthSigninDto): Promise<AuthResponseDto> {
     return this.authService.signinLocal(dto);
   }
 
