@@ -52,7 +52,7 @@ export class AuthService {
     return true;
   }
 
-  async refreshTokens(userId: string, rt: string): Promise<Tokens> {
+  async refreshTokens(userId: string, rt: string): Promise<AuthResponseDto> {
     const user = await this.usersRepository.findOneBy({ id: userId });
     if (!user || !user.refreshTokenHash) {
       throw new ForbiddenException('Access Denied');
@@ -64,7 +64,10 @@ export class AuthService {
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRtHash(user.id, tokens.refreshToken);
 
-    return tokens;
+    return {
+      ...tokens,
+      userId,
+    };
   }
 
   async updateRtHash(userId: string, rt: string): Promise<void> {
