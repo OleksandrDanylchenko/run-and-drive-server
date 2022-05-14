@@ -18,4 +18,7 @@ export class GetTripDto {
 
 export type TripUserDto = GetUserDto;
 
-export type TripCarDto = Pick<GetCarDto, 'id' | 'brand' | 'model' | 'color'>;
+export type TripCarDto = Pick<
+  GetCarDto,
+  'id' | 'brand' | 'model' | 'color' | 'year'
+>;

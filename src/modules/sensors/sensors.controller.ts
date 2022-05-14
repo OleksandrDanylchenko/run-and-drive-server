@@ -22,7 +22,7 @@ export class SensorsController {
   @HttpCode(HttpStatus.OK)
   async findLastByTrip(
     @Param('id', ParseUUIDPipe) tripId: string,
-  ): Promise<GetSensorsRecordDto | undefined> {
+  ): Promise<GetSensorsRecordDto> {
     return this.sensorsService.findLastByTrip(tripId);
   }
 

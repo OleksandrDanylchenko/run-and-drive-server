@@ -65,7 +65,7 @@ export class TripsService {
       totalDistance,
     } = trip;
 
-    const { id: carId, brand, model, color } = car;
+    const { id: carId, brand, model, color, year } = car;
     const user = await this.usersService.findOne(user_id);
 
     const startLocation = getLiteralFromPoint(startLocationPoint);
@@ -80,6 +80,7 @@ export class TripsService {
         brand,
         model,
         color,
+        year,
       },
       user,
       start: {

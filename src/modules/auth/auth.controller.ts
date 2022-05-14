@@ -17,7 +17,6 @@ import {
 import { RtGuard } from '@common/guards';
 
 import { AuthService } from './auth.service';
-import { Tokens } from './types';
 
 @Controller('auth')
 export class AuthController {
