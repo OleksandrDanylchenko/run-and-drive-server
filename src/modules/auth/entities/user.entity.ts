@@ -1,9 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 
 import { ImgurEntityIds } from '@common/types';
@@ -44,4 +47,13 @@ export class User {
 
   @OneToMany(() => Trip, (trip) => trip.user)
   trips: Trip[];
+
+  @RelationId((user: User) => user.trips)
+  tripsIds: string[];
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 }
