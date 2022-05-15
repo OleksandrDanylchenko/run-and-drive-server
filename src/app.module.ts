@@ -8,7 +8,6 @@ import { AuthModule } from '@auth/auth.module';
 import { CarsModule } from '@cars/cars.module';
 import { AtGuard } from '@common/guards';
 import { configValidationSchema } from '@config/config.schema';
-import mongoDataSource from '@config/mongo-data-source.config';
 import pgDataSource from '@config/pg-data-source.config';
 import { EmittersModule } from '@emitters/emitters.module';
 import { EngineersModule } from '@engineers/engineers.module';
@@ -25,7 +24,6 @@ import { AppService } from './app.service';
       validationSchema: configValidationSchema,
     }),
     TypeOrmModule.forRoot(pgDataSource.options),
-    TypeOrmModule.forRoot(mongoDataSource.options),
     ScheduleModule.forRoot(),
     AuthModule,
     EngineersModule,
