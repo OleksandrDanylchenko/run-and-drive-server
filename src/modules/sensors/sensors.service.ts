@@ -3,7 +3,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DateTime } from 'luxon';
 import { computeDistanceBetween } from 'spherical-geometry-js';
-import { LessThanOrEqual } from 'typeorm';
+import { IsNull, LessThanOrEqual } from 'typeorm';
 
 import { CarsService } from '@cars/cars.service';
 import { Car } from '@cars/entities/car.entity';
@@ -148,11 +148,17 @@ export class SensorsService {
     const oneWeekBefore = DateTime.now().minus({ weeks: 1 });
 
     const expiredRecords = await this.sensorsRepository.find({
-      where: {
-        trip: {
-          endTime: LessThanOrEqual(oneWeekBefore.toJSDate()),
+      where: [
+        {
+          trip: {
+            endTime: LessThanOrEqual(oneWeekBefore.toJSDate()),
+          },
         },
-      },
+        {
+          trip: IsNull(),
+          timestamp: LessThanOrEqual(oneWeekBefore.toJSDate()),
+        },
+      ],
       relations: {
         trip: true,
       },
